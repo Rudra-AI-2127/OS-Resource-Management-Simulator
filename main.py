@@ -40,6 +40,8 @@ from modules.deadlock import (
     bankers_algorithm,
     request_resources,
     display_safe_sequence,
+    format_deadlock_matrices,
+    explain_safety_steps,
 )
 from modules.disk_scheduling import (
     fcfs_disk,
@@ -263,25 +265,21 @@ def run_deadlock_module() -> None:
         max_demand=[list(r) for r in max_demand],
     )
 
-    print("\n--- SYSTEM RESOURCE MATRICES ---")
-    headers = ["PID"] + [f"Alloc {r}" for r in r_ids] + [f"Max {r}" for r in r_ids] + [f"Need {r}" for r in r_ids]
-    rows = []
-    for i, pid in enumerate(p_ids):
-        row = [pid] + state.allocation[i] + state.max_demand[i] + state.need[i]
-        rows.append(row)
-    print(format_table(headers, rows))
-    print(f"Available Resources: {dict(zip(r_ids, state.available))}\n")
+    print("\n" + format_deadlock_matrices(state) + "\n")
 
     if choice == "1":
-        is_safe, seq = bankers_algorithm(state)
-        print("DEADLOCK MANAGEMENT")
+        is_safe, seq, trace = explain_safety_steps(state)
+        print("=== STEP-BY-STEP SAFETY TRACE ===")
+        for line in trace:
+            print(f"  {line}")
+        print("-" * 50)
+        print("DEADLOCK MANAGEMENT SUMMARY")
         print(f"System Status: {'SAFE' if is_safe else 'UNSAFE / DEADLOCK RISK'}")
         if is_safe:
-            print("Safe Sequence:")
-            print(display_safe_sequence(seq))
-            print("All processes can complete safely.")
+            print(f"Safe Sequence: {display_safe_sequence(seq)}")
+            print("Status: All processes can complete safely.")
         else:
-            print("No safe sequence exists! Deadlock could occur.")
+            print("Status: No safe sequence exists! Deadlock could occur.")
 
     elif choice == "2":
         pid_req = input("Enter PID making request (e.g. P1): ").strip() or "P1"
@@ -291,7 +289,9 @@ def run_deadlock_module() -> None:
             granted, msg, seq = request_resources(state, pid_req, req_vec)
             print(f"\nResult: {msg}")
             if granted:
-                print(f"New Safe Sequence: {display_safe_sequence(seq)}")
+                print(f"Updated Safe Sequence: {display_safe_sequence(seq)}")
+                print("\nUpdated System Matrices:")
+                print(format_deadlock_matrices(state))
         except ValueError as e:
             print(f"[Error] Invalid request vector: {e}")
 
