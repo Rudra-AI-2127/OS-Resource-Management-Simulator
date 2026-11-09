@@ -6,7 +6,7 @@ Calculates Completion Time (CT), Turnaround Time (TAT), Waiting Time (WT), and R
 
 from collections import deque
 import copy
-from typing import Sequence
+from typing import Optional, Sequence
 from utils.logger import get_logger
 from utils.helpers import TimelineSegment, render_gantt_ascii
 from utils.validators import Process, validate_process_list, validate_positive_int
@@ -209,18 +209,49 @@ def round_robin(
     return completed, segments
 
 
-def calculate_metrics(processes: Sequence[Process]) -> dict[str, float]:
-    """Calculates Average Waiting Time and Average Turnaround Time."""
+def calculate_metrics(
+    processes: Sequence[Process],
+    segments: Optional[Sequence[TimelineSegment]] = None,
+) -> dict[str, float]:
+    """
+    Calculates comprehensive scheduling metrics:
+    - Average Waiting Time
+    - Average Turnaround Time
+    - Average Response Time
+    - Total Execution Time
+    - CPU Utilization percentage
+    """
     if not processes:
-        return {"avg_waiting_time": 0.0, "avg_turnaround_time": 0.0, "total_processes": 0}
+        return {
+            "avg_waiting_time": 0.0,
+            "avg_turnaround_time": 0.0,
+            "avg_response_time": 0.0,
+            "total_execution_time": 0,
+            "cpu_utilization": 0.0,
+            "total_processes": 0,
+        }
 
+    n = len(processes)
     total_wt = sum(p.waiting_time for p in processes)
     total_tat = sum(p.turnaround_time for p in processes)
-    n = len(processes)
+    total_rt = sum(p.response_time for p in processes)
+
+    total_time = 0
+    cpu_util = 100.0
+
+    if segments:
+        total_time = segments[-1].end_time if segments else 0
+        busy_time = sum(s.duration for s in segments if s.pid != "IDLE")
+        cpu_util = round((busy_time / total_time) * 100, 2) if total_time > 0 else 0.0
+    else:
+        total_time = max(p.completion_time for p in processes) if processes else 0
 
     return {
         "avg_waiting_time": round(total_wt / n, 2),
         "avg_turnaround_time": round(total_tat / n, 2),
+        "avg_response_time": round(total_rt / n, 2),
+        "total_execution_time": total_time,
+        "cpu_utilization": cpu_util,
         "total_processes": n,
     }
 
