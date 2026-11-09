@@ -387,8 +387,10 @@ def main() -> None:
             else:
                 print("Invalid choice. Please enter a number between 1 and 6.")
                 logger.warning(f"Invalid menu choice entered: {choice!r}")
-        except KeyboardInterrupt:
-            print("\nOperation cancelled by user. Returning to menu.")
+        except (KeyboardInterrupt, EOFError):
+            print("\nExiting OS Simulator. Goodbye!")
+            logger.info("Application closed on EOF or interrupt.")
+            break
         except Exception as e:
             print(f"\n[Unexpected Error] {e}")
             logger.error(f"Top-level unhandled exception: {e}")
