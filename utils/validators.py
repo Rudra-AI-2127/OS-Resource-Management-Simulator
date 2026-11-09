@@ -173,7 +173,10 @@ def validate_memory_inputs(
 
     valid_requests: list[tuple[str, int]] = []
     for idx, r in enumerate(requests):
-        if isinstance(r, (tuple, list)) and len(r) == 2:
+        if isinstance(r, (int, float)) or (isinstance(r, str) and r.isdigit()):
+            pid = f"P{idx + 1}"
+            size = r
+        elif isinstance(r, (tuple, list)) and len(r) == 2:
             pid, size = r[0], r[1]
         elif isinstance(r, dict):
             pid = r.get("pid", f"P{idx + 1}")

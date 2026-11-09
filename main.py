@@ -32,6 +32,7 @@ from modules.memory_management import (
     first_fit,
     best_fit,
     worst_fit,
+    compare_memory_algorithms,
     display_allocation,
 )
 from modules.deadlock import (
@@ -195,9 +196,30 @@ def run_memory_module() -> None:
         res = runner(blocks, requests)
         print(display_allocation(res))
     elif choice == "4":
-        for _, (name, runner) in algo_map.items():
-            res = runner(blocks, requests)
+        comp = compare_memory_algorithms(blocks, requests)
+        for _, res in comp["results"].items():
             print(display_allocation(res))
+
+        print("\n=== MEMORY ALLOCATION COMPARISON SUMMARY ===")
+        comp_headers = [
+            "Algorithm", "Success Rate", "Allocated (KB)", "Success Count",
+            "Failed Count", "Free Memory (KB)", "Utilization", "External Frag"
+        ]
+        comp_rows = [
+            [
+                r["algorithm"],
+                f"{r['success_rate_percent']:.1f}%",
+                f"{r['total_allocated_kb']} KB",
+                str(r["successful_allocations"]),
+                str(r["failed_allocations"]),
+                f"{r['free_memory_kb']} KB",
+                f"{r['memory_utilization_percent']:.1f}%",
+                f"{r['external_fragmentation_kb']} KB",
+            ]
+            for r in comp["comparison_table"]
+        ]
+        print(format_table(comp_headers, comp_rows))
+        print(f"\nOptimal Strategy for Workload: {comp['best_algorithm']}")
 
 
 def run_deadlock_module() -> None:

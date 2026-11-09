@@ -1,10 +1,12 @@
 """
 Memory Management Module — OS Resource Management Simulator.
 Implements First Fit, Best Fit, and Worst Fit dynamic partition allocation with block splitting.
-Calculates allocated memory, remaining free memory, and external/internal fragmentation.
+Calculates allocated memory, remaining free memory, utilization, and external/internal fragmentation.
+Provides comparative benchmarking across memory allocation strategies.
 """
 
 from dataclasses import dataclass, field
+import copy
 from typing import Any, Optional, Sequence, Union
 from utils.logger import get_logger
 from utils.helpers import format_table
@@ -31,11 +33,22 @@ class MemoryAllocationResult:
     allocations: list[dict]
     unallocated_processes: list[str]
     total_memory_kb: int
-    used_memory_kb: int
-    free_memory_kb: int
+    total_allocated_kb: int
+    total_free_memory_kb: int
+    successful_allocations: int
+    failed_allocations: int
+    memory_utilization: float
     external_fragmentation_kb: int
     internal_fragmentation_kb: int = 0
     remaining_blocks: list[dict] = field(default_factory=list)
+
+    @property
+    def used_memory_kb(self) -> int:
+        return self.total_allocated_kb
+
+    @property
+    def free_memory_kb(self) -> int:
+        return self.total_free_memory_kb
 
 
 def _init_blocks(block_sizes: Sequence[int]) -> list[MemoryBlock]:
@@ -48,14 +61,19 @@ def _init_blocks(block_sizes: Sequence[int]) -> list[MemoryBlock]:
 
 def _allocate(
     block_sizes: Sequence[int],
-    requests: Sequence[Union[tuple[str, int], dict[str, Any]]],
+    requests: Sequence[Union[int, tuple[str, int], dict[str, Any]]],
     strategy: str,
 ) -> MemoryAllocationResult:
     """
     Core allocation engine supporting First Fit, Best Fit, and Worst Fit strategies.
-    Implements dynamic block splitting and external fragmentation calculation.
+    Implements dynamic block splitting and external fragmentation auditing.
+    Guarantees input isolation by copying inputs before processing.
     """
-    valid_blocks, valid_requests = validate_memory_inputs(list(block_sizes), list(requests))
+    # Defensive isolation: deepcopy inputs so caller's structures are never mutated
+    blocks_copy = copy.deepcopy(list(block_sizes))
+    requests_copy = copy.deepcopy(list(requests))
+
+    valid_blocks, valid_requests = validate_memory_inputs(blocks_copy, requests_copy)
     blocks = _init_blocks(valid_blocks)
     total_mem = sum(valid_blocks)
 
@@ -106,7 +124,7 @@ def _allocate(
             })
 
             # Dynamic block splitting:
-            # The allocated portion takes req_size. The remaining free space stays available.
+            # Allocated partition takes req_size. The remaining free space stays in the free pool.
             if remaining_sz > 0:
                 chosen.size = remaining_sz
                 chosen.is_free = True
@@ -118,9 +136,12 @@ def _allocate(
 
     used_mem = sum(a["allocated_kb"] for a in allocations)
     free_mem = sum(b.size for b in blocks if b.is_free)
+    success_count = len(allocations)
+    failed_count = len(unallocated_processes)
+    utilization = round((used_mem / total_mem) * 100, 2) if total_mem > 0 else 0.0
 
     # Calculate external fragmentation:
-    # Occurs when any unallocated process cannot be placed, but total free space >= process size
+    # Occurs when any unallocated process cannot be placed, but total free space >= process request size
     external_frag = 0
     if unallocated_processes:
         req_map = dict(valid_requests)
@@ -140,39 +161,91 @@ def _allocate(
         allocations=allocations,
         unallocated_processes=unallocated_processes,
         total_memory_kb=total_mem,
-        used_memory_kb=used_mem,
-        free_memory_kb=free_mem,
+        total_allocated_kb=used_mem,
+        total_free_memory_kb=free_mem,
+        successful_allocations=success_count,
+        failed_allocations=failed_count,
+        memory_utilization=utilization,
         external_fragmentation_kb=external_frag,
         internal_fragmentation_kb=0,  # 0 under dynamic block splitting
         remaining_blocks=remaining_blocks_info,
     )
 
     logger.info(
-        f"{strategy} executed: {len(allocations)} allocated, "
-        f"{len(unallocated_processes)} failed, Used={used_mem}KB, Free={free_mem}KB."
+        f"{strategy} executed: {success_count} allocated, {failed_count} failed, "
+        f"Used={used_mem}KB, Free={free_mem}KB, ExtFrag={external_frag}KB."
     )
     return result
 
 
 def first_fit(
-    blocks: Sequence[int], requests: Sequence[Union[tuple[str, int], dict[str, Any]]]
+    blocks: Sequence[int], requests: Sequence[Union[int, tuple[str, int], dict[str, Any]]]
 ) -> MemoryAllocationResult:
     """Allocates memory using First Fit strategy with dynamic block splitting."""
     return _allocate(blocks, requests, "First Fit")
 
 
 def best_fit(
-    blocks: Sequence[int], requests: Sequence[Union[tuple[str, int], dict[str, Any]]]
+    blocks: Sequence[int], requests: Sequence[Union[int, tuple[str, int], dict[str, Any]]]
 ) -> MemoryAllocationResult:
     """Allocates memory using Best Fit strategy with dynamic block splitting."""
     return _allocate(blocks, requests, "Best Fit")
 
 
 def worst_fit(
-    blocks: Sequence[int], requests: Sequence[Union[tuple[str, int], dict[str, Any]]]
+    blocks: Sequence[int], requests: Sequence[Union[int, tuple[str, int], dict[str, Any]]]
 ) -> MemoryAllocationResult:
     """Allocates memory using Worst Fit strategy with dynamic block splitting."""
     return _allocate(blocks, requests, "Worst Fit")
+
+
+def compare_memory_algorithms(
+    blocks: Sequence[int], requests: Sequence[Union[int, tuple[str, int], dict[str, Any]]]
+) -> dict[str, Any]:
+    """
+    Executes First Fit, Best Fit, and Worst Fit on identical independent copies of the input data.
+    Returns comparative evaluation metrics and identifies the best-performing algorithm.
+    """
+    res_ff = first_fit(blocks, requests)
+    res_bf = best_fit(blocks, requests)
+    res_wf = worst_fit(blocks, requests)
+
+    results_map = {
+        "First Fit": res_ff,
+        "Best Fit": res_bf,
+        "Worst Fit": res_wf,
+    }
+
+    comparison_records: list[dict] = []
+    for name, res in results_map.items():
+        total_reqs = res.successful_allocations + res.failed_allocations
+        success_rate = round((res.successful_allocations / total_reqs) * 100, 2) if total_reqs > 0 else 0.0
+        comparison_records.append({
+            "algorithm": name,
+            "success_rate_percent": success_rate,
+            "total_allocated_kb": res.total_allocated_kb,
+            "successful_allocations": res.successful_allocations,
+            "failed_allocations": res.failed_allocations,
+            "free_memory_kb": res.total_free_memory_kb,
+            "memory_utilization_percent": res.memory_utilization,
+            "external_fragmentation_kb": res.external_fragmentation_kb,
+        })
+
+    # Determine best algorithm: highest success count, then highest utilization, then lowest external fragmentation
+    best_algo = max(
+        results_map.keys(),
+        key=lambda k: (
+            results_map[k].successful_allocations,
+            results_map[k].memory_utilization,
+            -results_map[k].external_fragmentation_kb,
+        ),
+    )
+
+    return {
+        "results": results_map,
+        "comparison_table": comparison_records,
+        "best_algorithm": best_algo,
+    }
 
 
 def calculate_fragmentation(
@@ -193,7 +266,7 @@ def calculate_fragmentation(
 
 
 def display_allocation(result: MemoryAllocationResult) -> str:
-    """Renders formatted ASCII table of memory allocation results."""
+    """Renders formatted ASCII table of memory allocation results and performance metrics."""
     lines = [
         "",
         f"=== MEMORY ALLOCATION RESULTS ({result.algorithm.upper()}) ===",
@@ -213,7 +286,19 @@ def display_allocation(result: MemoryAllocationResult) -> str:
         rows.append([p, "N/A", "FAILED (No Block Fits)", "N/A"])
 
     lines.append(format_table(headers, rows))
-    lines.append(f"Total Memory: {result.total_memory_kb} KB | Used: {result.used_memory_kb} KB | Free: {result.free_memory_kb} KB")
-    lines.append(f"External Fragmentation: {result.external_fragmentation_kb} KB | Internal Fragmentation: {result.internal_fragmentation_kb} KB")
+    lines.append(
+        f"Total Memory: {result.total_memory_kb} KB | "
+        f"Allocated: {result.total_allocated_kb} KB | "
+        f"Free: {result.total_free_memory_kb} KB"
+    )
+    lines.append(
+        f"Successful Allocations: {result.successful_allocations} | "
+        f"Failed Allocations: {result.failed_allocations} | "
+        f"Memory Utilization: {result.memory_utilization:.2f}%"
+    )
+    lines.append(
+        f"External Fragmentation: {result.external_fragmentation_kb} KB | "
+        f"Internal Fragmentation: {result.internal_fragmentation_kb} KB"
+    )
 
     return "\n".join(lines)
