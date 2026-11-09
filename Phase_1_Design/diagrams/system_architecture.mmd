@@ -1,0 +1,72 @@
+graph TD
+    classDef ui fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b;
+    classDef ctrl fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20;
+    classDef mod fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#e65100;
+    classDef util fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#4a148c;
+    classDef rep fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#880e4f;
+    classDef store fill:#eceff1,stroke:#455a64,stroke-width:2px,color:#263238;
+
+    subgraph UserInterface["1. Presentation & User Interfaces"]
+        CLI["CLI Main Entrypoint<br/>(main.py)"]:::ui
+        WEB["Streamlit Dashboard<br/>(app.py - Optional)"]:::ui
+        BATCH["Automated Bash Launcher<br/>(run.sh)"]:::ui
+    end
+
+    subgraph ControllerLayer["2. Application Controller & Orchestration"]
+        APP_CTRL["Controller & Dispatcher<br/>(main.py: main())"]:::ctrl
+        INPUT_DISP["Input Router<br/>(Interactive vs CSV Batch)"]:::ctrl
+    end
+
+    subgraph UtilityLayer["3. Cross-Cutting Utilities"]
+        VAL["Validators<br/>(utils/validators.py)"]:::util
+        LOG["Logger Audit System<br/>(utils/logger.py)"]:::util
+        HELP["Formatters & Tabulators<br/>(utils/helpers.py)"]:::util
+    end
+
+    subgraph CoreEngine["4. Core Resource-Management Modules"]
+        CPU["CPU Scheduling Module<br/>(modules/cpu_scheduling.py)<br/>• FCFS • SJF<br/>• Round Robin • Priority"]:::mod
+        MEM["Memory Management Module<br/>(modules/memory_management.py)<br/>• First Fit • Best Fit<br/>• Worst Fit • Dynamic Splitting"]:::mod
+        DLK["Deadlock Management Module<br/>(modules/deadlock.py)<br/>• Need Matrix • Banker's Safety<br/>• Safe Sequence • Request Check"]:::mod
+        DSK["Disk Scheduling Module<br/>(modules/disk_scheduling.py)<br/>• FCFS • SSTF<br/>• SCAN • C-SCAN"]:::mod
+    end
+
+    subgraph ReportingEngine["5. Reporting & Analytics Subsystem"]
+        REP["Reporting Engine<br/>(modules/reporting.py)<br/>• Common Workload Evaluator<br/>• Comparative Tables<br/>• Matplotlib Visualizations"]:::rep
+    end
+
+    subgraph PersistenceLayer["6. Data Storage & Output Artifacts"]
+        DATA_IN["Input Workloads<br/>(data/*.csv)"]:::store
+        DATA_OUT["Results CSVs<br/>(results/*.csv)"]:::store
+        CHARTS["Matplotlib Plots<br/>(charts/*.png)"]:::store
+        LOG_FILE["Audit Log<br/>(logs/activity.log)"]:::store
+    end
+
+    CLI --> APP_CTRL
+    WEB --> APP_CTRL
+    BATCH --> CLI
+
+    APP_CTRL --> INPUT_DISP
+    INPUT_DISP --> VAL
+    APP_CTRL --> LOG
+    LOG --> LOG_FILE
+
+    INPUT_DISP --> CPU
+    INPUT_DISP --> MEM
+    INPUT_DISP --> DLK
+    INPUT_DISP --> DSK
+    INPUT_DISP --> REP
+
+    DATA_IN -.-> INPUT_DISP
+
+    CPU --> HELP
+    MEM --> HELP
+    DLK --> HELP
+    DSK --> HELP
+
+    CPU --> REP
+    MEM --> REP
+    DLK --> REP
+    DSK --> REP
+
+    REP --> DATA_OUT
+    REP --> CHARTS

@@ -1,0 +1,29 @@
+flowchart TD
+    Start([Memory Management Module Entry]) --> ReadConfig[/Input Memory Block Sizes & Process Requests/]
+    ReadConfig --> ValMem{Validate: Sizes > 0, Requests > 0}
+    ValMem -- Error --> ErrorDisplay[Display Validation Error] --> ReadConfig
+    ValMem -- Valid --> InitPool[Initialize Free Block Pool: id, size, free=True]
+
+    InitPool --> ChooseAlgo{Choose Allocation Policy}
+    ChooseAlgo -- First Fit --> StrategyFF[Scan blocks from start; pick first block >= request]
+    ChooseAlgo -- Best Fit --> StrategyBF[Scan all free blocks; pick smallest block >= request]
+    ChooseAlgo -- Worst Fit --> StrategyWF[Scan all free blocks; pick largest block >= request]
+
+    StrategyFF --> IterProc[For each Process Request in sequence]
+    StrategyBF --> IterProc
+    StrategyWF --> IterProc
+
+    IterProc --> SearchBlock{Suitable block found?}
+    SearchBlock -- Yes --> CheckExact{block_size == req_size?}
+    CheckExact -- Yes --> AllocExact[Allocate block directly: remaining = 0]
+    CheckExact -- No --> SplitBlock[Split block: Allocate req_size, insert remaining into free pool]
+
+    SearchBlock -- No --> MarkFailed[Mark process status: FAILED Insufficient Memory]
+    AllocExact --> NextProc{More requests?}
+    SplitBlock --> NextProc
+    MarkFailed --> NextProc
+
+    NextProc -- Yes --> IterProc
+    NextProc -- No --> AuditFrag[Calculate External Fragmentation & Used Memory]
+    AuditFrag --> RenderTable[/Display Allocation Results Table & Utilization Metrics/]
+    RenderTable --> EndNode([Return])

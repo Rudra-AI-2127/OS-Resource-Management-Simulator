@@ -1,0 +1,26 @@
+flowchart TD
+    Start([Execute run_tests.sh]) --> Discover[Discover unittest suites in tests/]
+
+    subgraph TestExecution[Automated Test Suites]
+        T_CPU[test_cpu.py<br/>• Normal scheduling • Negative burst<br/>• Empty process queue • Idle time]
+        T_MEM[test_memory.py<br/>• Allocation correctness • Out of memory<br/>• Block splitting • Fragmentation audit]
+        T_DLK[test_deadlock.py<br/>• Need matrix derivation • Safe state detection<br/>• Unsafe state • Speculative rollback]
+        T_DSK[test_disk.py<br/>• 299 cylinders SSTF trace • Boundary sweeps<br/>• C-SCAN wraparound • Invalid track check]
+        T_REP[test_reporting.py<br/>• CSV schema validation • Chart generation<br/>• Multi-module aggregator]
+    end
+
+    Discover --> T_CPU
+    Discover --> T_MEM
+    Discover --> T_DLK
+    Discover --> T_DSK
+    Discover --> T_REP
+
+    T_CPU --> Assertions{Assertions Pass?}
+    T_MEM --> Assertions
+    T_DLK --> Assertions
+    T_DSK --> Assertions
+    T_REP --> Assertions
+
+    Assertions -- Failure --> LogFail[Log failure to logs/activity.log & terminal] --> FailReport[/Exit code 1: Generate debugging diagnostic/]
+    Assertions -- All Pass --> LogPass[Log success to logs/activity.log] --> GenMatrix[Export test_results.csv & test_cases.xlsx]
+    GenMatrix --> PassReport[/Exit code 0: 100% Tests Passed/] --> EndNode([Ready for Demonstration])

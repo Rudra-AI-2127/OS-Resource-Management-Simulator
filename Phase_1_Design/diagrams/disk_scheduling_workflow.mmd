@@ -1,0 +1,20 @@
+flowchart TD
+    Start([Disk Scheduling Entry]) --> InputParams[/Input Request Queue, Initial Head, Total Cylinders, Direction/]
+    InputParams --> ValParams{Validate: Head & Requests in 0 to MaxCylinders-1}
+    ValParams -- Error --> ErrOut[Display Cylinder Out-of-Bounds Error] --> InputParams
+    ValParams -- Valid --> ChooseAlgo{Choose Disk Algorithm}
+
+    ChooseAlgo -- FCFS --> TraceFCFS[Service requests in exact queue arrival order]
+    ChooseAlgo -- SSTF --> TraceSSTF[Greedily pick unvisited request with min abs diff from current head]
+    ChooseAlgo -- SCAN --> TraceSCAN[Sweep in current direction to disk boundary 199, reverse, sweep back]
+    ChooseAlgo -- C-SCAN --> TraceCSCAN[Sweep to boundary 199, jump to 0, resume sweep in original direction]
+
+    TraceFCFS --> CalcSeek[Calculate Absolute Cylinder Movements for each hop]
+    TraceSSTF --> CalcSeek
+    TraceSCAN --> CalcSeek
+    TraceCSCAN --> CalcSeek
+
+    CalcSeek --> SumMovement[Total Head Movement = Sum of absolute cylinder steps]
+    SumMovement --> AvgMovement[Average Head Movement = Total Movement / Total Requests Serviced]
+    AvgMovement --> FormatSeq[Assemble Ordered Service Sequence: 53 -> ...]
+    FormatSeq --> RenderResults[/Display Sequence, Total Cylinders, and Average Seek/] --> EndNode([Return])

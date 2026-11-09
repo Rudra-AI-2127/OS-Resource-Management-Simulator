@@ -1,0 +1,34 @@
+flowchart TD
+    Start([CPU Scheduling Module Entry]) --> InputProc[/Receive Process List: PID, AT, BT, Priority/]
+    InputProc --> ValProc{Validate: BT > 0, AT >= 0, Unique PIDs}
+    ValProc -- Error --> ShowErr[Raise / Show ValueError] --> InputProc
+    ValProc -- Valid --> SelectAlgo{Select Algorithm}
+
+    SelectAlgo -- 1. FCFS --> SortAT[Sort ready processes by Arrival Time]
+    SortAT --> LoopFCFS[Execute process until completion non-preemptively]
+
+    SelectAlgo -- 2. SJF --> CheckReadySJF[Filter processes with AT <= current_time]
+    CheckReadySJF --> PickShortest[Select process with min BT; ties by AT, PID]
+    PickShortest --> ExecSJF[Execute non-preemptively to completion]
+
+    SelectAlgo -- 3. Round Robin --> ConfigQ[/Input Time Quantum q >= 1/]
+    ConfigQ --> EnqueueInit[Enqueue initial ready processes]
+    EnqueueInit --> LoopRR[Execute head process for min remaining_time, q]
+    LoopRR --> CheckArrivals[Check & enqueue new arrivals at current_time]
+    CheckArrivals --> RequeuePreempted[Re-enqueue preempted process if remaining_time > 0]
+
+    SelectAlgo -- 4. Priority --> CheckReadyPrio[Filter processes with AT <= current_time]
+    CheckReadyPrio --> PickPrio[Select lowest numeric priority value; ties by AT, PID]
+    PickPrio --> ExecPrio[Execute non-preemptively to completion]
+
+    LoopFCFS --> CheckAllDone{All processes completed?}
+    ExecSJF --> CheckAllDone
+    RequeuePreempted --> CheckAllDone
+    ExecPrio --> CheckAllDone
+
+    CheckAllDone -- No & Queue Empty --> AdvanceIdle[Advance time to next AT: Log IDLE Slot] --> SelectAlgo
+    CheckAllDone -- No & Ready --> SelectAlgo
+    CheckAllDone -- Yes --> CalcMetrics[Calculate CT, TAT = CT - AT, WT = TAT - BT, RT]
+    CalcMetrics --> CalcAvg[Calculate Average WT and Average TAT]
+    CalcAvg --> BuildGantt[Assemble Timeline Segments into Gantt Chart]
+    BuildGantt --> DisplayCPU[/Output Results Table & Gantt Chart/] --> EndNode([Return])

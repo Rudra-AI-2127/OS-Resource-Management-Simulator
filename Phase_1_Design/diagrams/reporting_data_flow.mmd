@@ -1,0 +1,52 @@
+flowchart LR
+    subgraph BaselineWorkloads[Benchmark Workloads: data/*.csv]
+        CSV_CPU[(cpu_input.csv)]
+        CSV_MEM[(memory_input.csv)]
+        CSV_DSK[(disk_input.csv)]
+    end
+
+    subgraph SimulationEngines[Execution Modules]
+        CPU_ENG[CPU Module Engine<br/>FCFS, SJF, RR, Priority]
+        MEM_ENG[Memory Module Engine<br/>First, Best, Worst Fit]
+        DLK_ENG[Deadlock Module Engine<br/>Banker's Safety Check]
+        DSK_ENG[Disk Module Engine<br/>FCFS, SSTF, SCAN, C-SCAN]
+    end
+
+    subgraph ReportingCollector[modules/reporting.py]
+        COLLECT[Metric Aggregator & Comparator]
+        TABLE_GEN[Tabular Formatter]
+        PLOT_GEN[Matplotlib Chart Engine]
+    end
+
+    subgraph OutputArtifacts[Results & Analysis Persistence]
+        RES_CPU[(results/cpu_results.csv)]
+        RES_MEM[(results/memory_results.csv)]
+        RES_DSK[(results/disk_results.csv)]
+        PLOT1[charts/cpu_comparison.png]
+        PLOT2[charts/memory_comparison.png]
+        PLOT3[charts/disk_comparison.png]
+        PLOT4[charts/overall_analysis.png]
+        OBS_DOC[Phase_3_Analysis/observations.md]
+    end
+
+    CSV_CPU --> CPU_ENG
+    CSV_MEM --> MEM_ENG
+    CSV_DSK --> DSK_ENG
+
+    CPU_ENG --> COLLECT
+    MEM_ENG --> COLLECT
+    DLK_ENG --> COLLECT
+    DSK_ENG --> COLLECT
+
+    COLLECT --> TABLE_GEN
+    COLLECT --> PLOT_GEN
+
+    TABLE_GEN --> RES_CPU
+    TABLE_GEN --> RES_MEM
+    TABLE_GEN --> RES_DSK
+
+    PLOT_GEN --> PLOT1
+    PLOT_GEN --> PLOT2
+    PLOT_GEN --> PLOT3
+    PLOT_GEN --> PLOT4
+    PLOT_GEN --> OBS_DOC

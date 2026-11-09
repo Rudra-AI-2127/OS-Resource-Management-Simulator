@@ -1,0 +1,38 @@
+flowchart TD
+    Start([Launch main.py / run.sh]) --> InitLog[Initialize Logging: logs/activity.log]
+    InitLog --> MenuDisplay[/Display OS RESOURCE MANAGEMENT Menu/]
+
+    MenuDisplay --> ChoiceInput[/User inputs choice: 1 - 6/]
+    ChoiceInput --> ValChoice{Valid choice 1-6?}
+
+    ValChoice -- No --> ErrMsg[Log Warning & Print Invalid Choice] --> MenuDisplay
+    ValChoice -- Yes: 6 --> Terminate[Log Shutdown & Exit Program] --> EndNode([Shutdown])
+
+    ValChoice -- Yes: 1 --> SubCPU[run_cpu_module]
+    ValChoice -- Yes: 2 --> SubMEM[run_memory_module]
+    ValChoice -- Yes: 3 --> SubDLK[run_deadlock_module]
+    ValChoice -- Yes: 4 --> SubDSK[run_disk_module]
+    ValChoice -- Yes: 5 --> SubREP[run_reporting_module]
+
+    subgraph ModuleExecution[Common Module Sub-Workflow]
+        SelectSource{Input Source?}
+        SelectSource -- Interactive Console --> PromptInputs[/Read Parameters from CLI/]
+        SelectSource -- CSV File Batch --> ReadCSV[/Load from data/*.csv/]
+
+        PromptInputs --> ValidateInputs{Validate Inputs<br/>via utils/validators}
+        ReadCSV --> ValidateInputs
+
+        ValidateInputs -- Invalid --> Reprompt[Display Error Diagnostics & Retry] --> SelectSource
+        ValidateInputs -- Valid --> ExecAlgo[Execute Selected Algorithm]
+        ExecAlgo --> CompMetrics[Compute Formulas & Metrics]
+        CompMetrics --> RenderOutput[/Display Tabular Results & Gantt Chart/]
+        RenderOutput --> LogExec[Log Module Execution to activity.log]
+    end
+
+    SubCPU --> SelectSource
+    SubMEM --> SelectSource
+    SubDLK --> SelectSource
+    SubDSK --> SelectSource
+    SubREP --> SelectSource
+
+    LogExec --> RetMenu[/Press Enter to Return to Menu/] --> MenuDisplay

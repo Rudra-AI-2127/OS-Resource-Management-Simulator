@@ -1,0 +1,36 @@
+flowchart TD
+    Start([Deadlock Management Entry]) --> LoadState[/Input Available, Max Matrix, Allocation Matrix/]
+    LoadState --> ValidateMatrix{Validate Dimensions & Allocation <= Max}
+    ValidateMatrix -- Invalid --> ShowErr[Raise Validation Exception] --> LoadState
+
+    ValidateMatrix -- Valid --> DeriveNeed[Compute Need = Max - Allocation]
+    DeriveNeed --> DisplayNeed[/Display Need Matrix/]
+
+    DisplayNeed --> ModeChoice{Select Action}
+
+    ModeChoice -- Check System Safety --> InitWork[Set Work = Available, Finish = all False, Seq = empty]
+    InitWork --> SearchProc{Find Pi where Finish is False and Need_i <= Work}
+
+    SearchProc -- Found Pi --> ExecutePi[Work = Work + Allocation_i<br/>Finish_i = True<br/>Append Pi to Seq]
+    ExecutePi --> SearchProc
+
+    SearchProc -- None Found --> CheckFinish{Are all Finish True?}
+    CheckFinish -- Yes --> SafeResult[State: SAFE<br/>Safe Sequence: Seq]
+    CheckFinish -- No --> UnsafeResult[State: UNSAFE / DEADLOCK RISK<br/>Safe Sequence: None]
+
+    ModeChoice -- Evaluate Dynamic Request --> InputReq[/Input Process P_k and Request Vector/]
+    InputReq --> CheckNeed{Request <= Need_k?}
+    CheckNeed -- No --> ErrExceed[Error: Process exceeded max claim] --> RetMenu
+    CheckNeed -- Yes --> CheckAvail{Request <= Available?}
+    CheckAvail -- No --> WaitAvail[Process must wait: Resources currently unavailable] --> RetMenu
+
+    CheckAvail -- Yes --> SpeculativeAlloc[Speculative: Available -= Req, Alloc_k += Req, Need_k -= Req]
+    SpeculativeAlloc --> RunSafetyCheck[Run Banker's Safety Algorithm]
+    RunSafetyCheck --> IsSpecSafe{Is system in Safe State?}
+
+    IsSpecSafe -- Yes --> CommitAlloc[Commit Allocation: Safe state guaranteed] --> SafeResult
+    IsSpecSafe -- No --> RollbackAlloc[Rollback State: Request denied to prevent deadlock] --> UnsafeResult
+
+    SafeResult --> DisplayOutcome[/Display Status and Safe Sequence/]
+    UnsafeResult --> DisplayOutcome
+    DisplayOutcome --> RetMenu([Return])
