@@ -286,8 +286,12 @@ def validate_cylinder_requests(
         valid_reqs.append(cyl)
 
     dir_clean = str(direction).strip().lower()
-    if dir_clean not in ("up", "down"):
-        err_msg = f"Invalid disk head direction '{direction}'. Must be 'up' or 'down'."
+    if dir_clean in ("up", "right", "asc", "ascending"):
+        dir_clean = "up"
+    elif dir_clean in ("down", "left", "desc", "descending"):
+        dir_clean = "down"
+    else:
+        err_msg = f"Invalid disk head direction '{direction}'. Must be 'up'/'right' or 'down'/'left'."
         logger.warning(err_msg)
         raise ValueError(err_msg)
 

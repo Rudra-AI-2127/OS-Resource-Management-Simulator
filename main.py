@@ -48,6 +48,8 @@ from modules.disk_scheduling import (
     sstf,
     scan,
     cscan,
+    compare_disk_algorithms,
+    display_disk_result,
 )
 
 logger = setup_logger()
@@ -343,20 +345,26 @@ def run_disk_module() -> None:
     if choice in algo_map:
         name, runner = algo_map[choice]
         res = runner()
-        _print_disk_results(res)
+        print("\n" + display_disk_result(res))
     elif choice == "5":
         print("\n=== RUNNING ALL DISK SCHEDULING ALGORITHMS ===")
-        for _, (name, runner) in algo_map.items():
-            res = runner()
-            _print_disk_results(res)
+        comp = compare_disk_algorithms(requests, initial_head, total_cylinders, direction=direction)
+        for _, res in comp["results"].items():
+            print("\n" + display_disk_result(res))
 
-
-def _print_disk_results(res) -> None:
-    print(f"\nDISK SCHEDULING — {res.algorithm}")
-    print(f"Initial Head Position: {res.initial_head}")
-    print(f"Request Sequence: {' -> '.join(map(str, res.seek_sequence))}")
-    print(f"Total Head Movement: {res.total_head_movement} cylinders")
-    print(f"Average Head Movement: {res.average_head_movement:.2f} cylinders")
+        print("\n=== DISK SCHEDULING COMPARISON SUMMARY ===")
+        comp_headers = ["Algorithm", "Total Head Movement", "Average Seek Distance", "Requests Serviced"]
+        comp_rows = [
+            [
+                r["algorithm"],
+                f"{r['total_head_movement']} cylinders",
+                f"{r['average_head_movement']:.2f} cyl/req",
+                str(r["requests_serviced"]),
+            ]
+            for r in comp["comparison_table"]
+        ]
+        print(format_table(comp_headers, comp_rows))
+        print(f"\nOptimal Algorithm for Minimum Head Movement: {comp['best_algorithm']}")
 
 
 def run_reporting_module() -> None:
