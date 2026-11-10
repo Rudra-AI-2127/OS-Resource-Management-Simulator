@@ -44,6 +44,8 @@ class TestSmokeBootstrap(unittest.TestCase):
             "logs",
             "screenshots",
             "Phase_1_Design",
+            "Phase_3_Analysis",
+            "Phase_4_Testing",
         ]
         for d in mandatory_dirs:
             dir_path = PROJECT_ROOT / d
