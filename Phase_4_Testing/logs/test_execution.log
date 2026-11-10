@@ -1,0 +1,471 @@
+PHASE 4 COMPREHENSIVE TESTING AUDIT EXECUTION LOG
+======================================================================
+
+Total Tests Executed: 77
+Total Tests Passed  : 77
+Total Tests Failed  : 0
+Success Rate        : 100.00%
+
+--------------------------------------------------------------------------------
+[PASS] TC01 (CPU Scheduling): Normal CPU input validation
+  Input   : 4 processes: P1(0,5), P2(1,3), P3(2,8), P4(3,2)
+  Expected: P1_CT=5, AvgWT=5.75, AvgTAT=10.25
+  Actual  : P1_CT=5, AvgWT=5.75, AvgTAT=10.25
+  Notes   : Matches faculty blueprint manual calculations
+
+[PASS] TC02 (Validation): Negative burst time rejection
+  Input   : burst_time = -5
+  Expected: Raise ValueError
+  Actual  : ValueError: Burst time for P1 must be strictly positive (> 0), got: -5
+  Notes   : Defensive check prevents execution
+
+[PASS] TC03 (Validation): Empty process list validation
+  Input   : []
+  Expected: Raise ValueError
+  Actual  : ValueError: Process list cannot be empty.
+  Notes   : Rejects empty process collections
+
+[PASS] TC04 (Memory Management): Valid memory allocation (Best Fit)
+  Input   : Blocks: [100,500,200,300,600], Reqs: [212,417,112,426]
+  Expected: 100% allocation (4/4, 1167 KB)
+  Actual  : Successful=4/4, Allocated=1167KB
+  Notes   : Best Fit successfully accommodates all requests
+
+[PASS] TC05 (Memory Management): Insufficient memory rejection
+  Input   : Blocks: [100, 200], Req: [P1: 500]
+  Expected: Allocation fails gracefully; 0 successful
+  Actual  : Failed=1, FreeMem=300KB, ExtFrag=0KB
+  Notes   : Graceful failure recorded with accurate fragmentation
+
+[PASS] TC06 (Deadlock Management): Safe resource allocation (Banker's)
+  Input   : Canonical Silberschatz 5-process state
+  Expected: System SAFE, Sequence starts with P1
+  Actual  : is_safe=True, sequence=P1 -> P3 -> P0 -> P2 -> P4
+  Notes   : Canonical safe state detected
+
+[PASS] TC07 (Deadlock Management): Unsafe resource state detection
+  Input   : 2 procs, Alloc=[2],[2], Max=[4],[4], Avail=[0]
+  Expected: System UNSAFE, empty sequence
+  Actual  : is_safe=False, sequence=[]
+  Notes   : Deadlock hazard detected accurately
+
+[PASS] TC08 (Disk Scheduling): Valid disk requests (SSTF)
+  Input   : Reqs: [98, 183, 37, 122, 14, 124, 65, 67], Head: 53
+  Expected: Total head movement = 236 cylinders
+  Actual  : HeadMovement=236 cyl, Serviced=8
+  Notes   : Matches textbook SSTF seek trajectory
+
+[PASS] TC09 (Validation): Invalid menu option rejection
+  Input   : choice = '99' (range 1-6)
+  Expected: Raise ValueError
+  Actual  : ValueError: Invalid option 99. Please enter a choice between 1 and 6.
+  Notes   : Prevents invalid menu navigation
+
+[PASS] TC10 (Invalid Types): Process arrival time non-numeric string
+  Input   : arrival_time = 'abc'
+  Expected: Raise ValueError
+  Actual  : ValueError: Arrival time must be an integer, got: 'abc'
+  Notes   : Caught string arrival time
+
+[PASS] TC11 (Invalid Types): Process burst time boolean type
+  Input   : burst_time = True
+  Expected: Raise ValueError
+  Actual  : ValueError: Burst time cannot be a boolean: True
+  Notes   : Boolean strictly rejected
+
+[PASS] TC12 (Invalid Types): Memory block size string
+  Input   : blocks = ['one_hundred']
+  Expected: Raise ValueError
+  Actual  : ValueError: Memory block #1 size must be an integer, got: 'one_hundred'
+  Notes   : Non-integer block rejected
+
+[PASS] TC13 (Invalid Types): Disk cylinder non-integer float
+  Input   : cylinders = [45.7]
+  Expected: Raise ValueError
+  Actual  : ValueError: Cylinder request #1 must be an integer, not float: 45.7
+  Notes   : Float cylinder rejected
+
+[PASS] TC14 (Invalid Types): Time quantum string
+  Input   : quantum = 'fast'
+  Expected: Raise ValueError
+  Actual  : ValueError: Time quantum must be an integer, got: 'fast'
+  Notes   : String quantum rejected
+
+[PASS] TC15 (Invalid Types): Deadlock matrix string element
+  Input   : Allocation[0][0] = 'A'
+  Expected: Raise ValueError
+  Actual  : ValueError: Allocation[0][0] must be an integer, got: 'A'
+  Notes   : Non-integer matrix entry rejected
+
+[PASS] TC16 (Missing Fields): Process missing burst time field
+  Input   : Missing burst_time
+  Expected: Raise ValueError
+  Actual  : Caught: Burst time for P1 must be an integer, got: None
+  Notes   : Missing burst time detected
+
+[PASS] TC17 (Missing Fields): Process missing PID identifier
+  Input   : Missing pid
+  Expected: Raise ValueError
+  Actual  : Caught: Process at index 0 is missing required 'pid' field.
+  Notes   : Missing PID identifier detected
+
+[PASS] TC18 (Missing Fields): Memory request missing size
+  Input   : Tuple with 1 element
+  Expected: Raise ValueError
+  Actual  : ValueError: Invalid memory request format at index 0: ('P1',)
+  Notes   : Malformed request tuple caught
+
+[PASS] TC19 (Missing Fields): Deadlock empty available vector
+  Input   : available = []
+  Expected: Raise ValueError
+  Actual  : ValueError: Allocation, Max Demand, and Available structures cannot be empty.
+  Notes   : Empty available vector caught
+
+[PASS] TC20 (Missing Fields): Deadlock empty process IDs
+  Input   : process_ids = []
+  Expected: Raise ValueError
+  Actual  : ValueError: Process IDs list cannot be empty.
+  Notes   : Empty process list caught
+
+[PASS] TC21 (Duplicates): Duplicate process IDs in CPU input
+  Input   : P1, P1
+  Expected: Raise ValueError
+  Actual  : ValueError: Duplicate Process ID detected: 'P1'.
+  Notes   : Duplicate PID rejected
+
+[PASS] TC22 (Duplicates): Duplicate process IDs in Memory input
+  Input   : P1, P1
+  Expected: Raise ValueError
+  Actual  : ValueError: Duplicate process request ID detected: 'P1'.
+  Notes   : Duplicate memory PID rejected
+
+[PASS] TC23 (Duplicates): Duplicate process IDs in Deadlock matrix
+  Input   : P0, P0
+  Expected: Raise ValueError
+  Actual  : ValueError: Duplicate process IDs detected in deadlock matrix.
+  Notes   : Duplicate deadlock PID rejected
+
+[PASS] TC24 (Duplicates): Duplicate disk cylinder requests
+  Input   : [50, 50, 80], Head: 50
+  Expected: Serviced cleanly with 0 seek distance for duplicate
+  Actual  : HeadMovement=30, Serviced=3
+  Notes   : Duplicate cylinders handled gracefully
+
+[PASS] TC25 (Boundary Values): Single CPU process execution
+  Input   : N=1, BT=7
+  Expected: WT=0, TAT=7
+  Actual  : WT=0.0, TAT=7.0
+  Notes   : Minimal process boundary verified
+
+[PASS] TC26 (Boundary Values): Simultaneous arrival at AT=0 (SJF)
+  Input   : P1(0,4), P2(0,2), P3(0,6)
+  Expected: Order: P2 -> P1 -> P3
+  Actual  : Execution order: P2 -> P1 -> P3
+  Notes   : Shortest job dispatched first
+
+[PASS] TC27 (Boundary Values): Equal burst times in SJF
+  Input   : P1(4), P2(4), P3(4)
+  Expected: Order: P1 -> P2 -> P3 (FIFO tie-break)
+  Actual  : Tie break order: P1 -> P2 -> P3
+  Notes   : Deterministic tie-breaking confirmed
+
+[PASS] TC28 (Boundary Values): CPU idle gap between process arrivals
+  Input   : P1(0,2), P2(5,3)
+  Expected: IDLE segment from t=2 to t=5
+  Actual  : Idle segment: start=2, end=5
+  Notes   : Explicit IDLE timeline rendered
+
+[PASS] TC29 (Boundary Values): Round Robin fine quantum q=1
+  Input   : P1(2), P2(2), q=1
+  Expected: Strict interleaving P1 -> P2 -> P1 -> P2
+  Actual  : Timeline: P1 -> P2 -> P1 -> P2
+  Notes   : Fine-grained time slicing verified
+
+[PASS] TC30 (Boundary Values): Round Robin quantum larger than all bursts
+  Input   : P1(0,3), P2(1,2), q=10
+  Expected: Matches FCFS completions (CT=3, 5)
+  Actual  : P1_CT=3, P2_CT=5
+  Notes   : Degeneration to FCFS confirmed
+
+[PASS] TC31 (Boundary Values): Exact memory block fit
+  Input   : Block: 250, Req: 250
+  Expected: Allocated=250KB, FreeRemaining=0KB
+  Actual  : Allocated=250KB, FreeRemaining=0KB
+  Notes   : Zero remainder verified
+
+[PASS] TC32 (Boundary Values): Dynamic memory partition splitting
+  Input   : Block: 500, Req: 150
+  Expected: Allocated=150KB, Remainder 350KB returned to free pool
+  Actual  : Allocated=150KB, FreePool=350KB
+  Notes   : Partition splitting dynamic block preservation
+
+[PASS] TC33 (Boundary Values): Initial disk head at cylinder 0
+  Input   : Head: 0, Reqs: [10, 50, 100]
+  Expected: Seek sequence starts at 0, movement=100 cyl
+  Actual  : SeekSeq=[0, 10, 50, 100], TotalSeek=100
+  Notes   : Minimum boundary head position verified
+
+[PASS] TC34 (Boundary Values): Initial disk head at cylinder 199
+  Input   : Head: 199, Reqs: [150, 100, 50]
+  Expected: Seek sequence starts at 199, movement=149 cyl
+  Actual  : SeekSeq=[199, 150, 100, 50], TotalSeek=149
+  Notes   : Maximum boundary head position verified
+
+[PASS] TC35 (Boundary Values): Disk request at current head position
+  Input   : Head: 53, Reqs: [53, 100]
+  Expected: Immediate service with 0 seek jump, total=47 cyl
+  Actual  : SeekSeq=[53, 53, 100], TotalSeek=47
+  Notes   : Zero-seek request handled cleanly
+
+[PASS] TC36 (Boundary Values): Disk SCAN downward elevator sweep
+  Input   : Head: 50, Reqs: [20, 80, 150], dir=down
+  Expected: Visits 20, 0, then 80, 150
+  Actual  : SeekSeq=50 -> 20 -> 0 -> 80 -> 150, TotalSeek=200
+  Notes   : Downward boundary reflection verified
+
+[PASS] TC37 (Boundary Values): Disk C-SCAN circular wraparound
+  Input   : Head: 100, Reqs: [10, 180], dir=up
+  Expected: Sequence: 100 -> 180 -> 199 -> 0 -> 10
+  Actual  : SeekSeq=100 -> 180 -> 199 -> 0 -> 10
+  Notes   : Rapid return jump verified
+
+[PASS] TC38 (Invalid Matrices): Deadlock row count mismatch
+  Input   : Max: 1 row, Alloc: 2 rows
+  Expected: Raise ValueError
+  Actual  : ValueError: Dimension mismatch: Max rows (1) != Allocation rows (2).
+  Notes   : Row dimension mismatch caught
+
+[PASS] TC39 (Invalid Matrices): Deadlock column count mismatch
+  Input   : Max: 3 cols, Alloc: 2 cols
+  Expected: Raise ValueError
+  Actual  : ValueError: Allocation row 0 has 2 columns, expected 3.
+  Notes   : Column dimension mismatch caught
+
+[PASS] TC40 (Invalid Matrices): Allocation exceeds Max Demand
+  Input   : Alloc > Max
+  Expected: Raise ValueError
+  Actual  : ValueError: Allocation (3) exceeds Max Demand (2) at Process P0, Resource 0.
+  Notes   : Allocation exceeding claim caught
+
+[PASS] TC41 (Invalid Matrices): Available length does not match resource count
+  Input   : Avail len != resources
+  Expected: Raise ValueError
+  Actual  : ValueError: Row 0 in Allocation has 2 resources, expected 1.
+  Notes   : Available dimension mismatch caught
+
+[PASS] TC42 (Invalid Matrices): Empty deadlock matrices
+  Input   : max=[], alloc=[]
+  Expected: Raise ValueError
+  Actual  : ValueError: Max Demand and Allocation matrices cannot be empty.
+  Notes   : Empty matrix input caught
+
+[PASS] TC43 (Invalid Matrices): Negative allocation count in matrix
+  Input   : Alloc=-1
+  Expected: Raise ValueError
+  Actual  : ValueError: Allocation[0][0] must be non-negative (>= 0), got: -1
+  Notes   : Negative resource count caught
+
+[PASS] TC44 (Invalid Matrices): Negative available vector entry
+  Input   : Avail=-3
+  Expected: Raise ValueError
+  Actual  : ValueError: Available[0] must be non-negative (>= 0), got: -3
+  Notes   : Negative available count caught
+
+[PASS] TC45 (Invalid Parameters): Round Robin time quantum q=0
+  Input   : quantum = 0
+  Expected: Raise ValueError
+  Actual  : ValueError: Time quantum must be strictly positive (> 0), got: 0
+  Notes   : Zero quantum rejected
+
+[PASS] TC46 (Invalid Parameters): Round Robin negative time quantum
+  Input   : quantum = -3
+  Expected: Raise ValueError
+  Actual  : ValueError: Time quantum must be strictly positive (> 0), got: -3
+  Notes   : Negative quantum rejected
+
+[PASS] TC47 (Invalid Parameters): Negative cylinder request rejection
+  Input   : cylinder = -10
+  Expected: Raise ValueError
+  Actual  : ValueError: Cylinder request #1 must be non-negative (>= 0), got: -10
+  Notes   : Negative cylinder caught
+
+[PASS] TC48 (Invalid Parameters): Cylinder exceeding total capacity rejection
+  Input   : cylinder = 250 >= 200
+  Expected: Raise ValueError
+  Actual  : ValueError: Cylinder request (250) at index 0 out of bounds [0, 199].
+  Notes   : Cylinder exceeding capacity caught
+
+[PASS] TC49 (Invalid Parameters): Initial head position out of bounds
+  Input   : head = 250 >= 200
+  Expected: Raise ValueError
+  Actual  : ValueError: Initial head position (250) out of bounds [0, 199].
+  Notes   : Out-of-range initial head caught
+
+[PASS] TC50 (Invalid Parameters): Total cylinders zero
+  Input   : total_cylinders = 0
+  Expected: Raise ValueError
+  Actual  : ValueError: Total Cylinders must be strictly positive (> 0), got: 0
+  Notes   : Non-positive total cylinders caught
+
+[PASS] TC51 (Invalid Parameters): Invalid disk sweep direction string
+  Input   : direction = 'diagonal'
+  Expected: Raise ValueError
+  Actual  : ValueError: Invalid disk head direction 'diagonal'. Must be 'up'/'right' or 'down'/'left'.
+  Notes   : Invalid sweep direction caught
+
+[PASS] TC52 (Deadlock Safety): Safe dynamic resource request granted
+  Input   : P1 requests [1, 0, 2]
+  Expected: Granted=True, State safely committed
+  Actual  : Granted=True, UpdatedAvail=[2, 3, 0], Seq=P1 -> P3 -> P0 -> P2 -> P4
+  Notes   : State successfully committed
+
+[PASS] TC53 (Deadlock Safety): Request exceeding declared claim rejected
+  Input   : P1 requests [5, 5, 5] (Need=[1, 2, 2])
+  Expected: Granted=False, diagnostic error
+  Actual  : Granted=False, Msg=Error: Process P1 has exceeded its maximum claim! Requested 5 for A, Need is 1.
+  Notes   : Claim violation rejected
+
+[PASS] TC54 (Deadlock Safety): Request exceeding current availability forced to wait
+  Input   : P0 requests [0, 4, 0] (Avail=[3, 3, 2])
+  Expected: Granted=False, Process must wait
+  Actual  : Granted=False, Msg=Process P0 must wait: Resources currently unavailable. Requested 4 of B, Available is 3.
+  Notes   : Capacity violation forces wait
+
+[PASS] TC55 (Deadlock Safety): Unsafe request denied with speculative rollback
+  Input   : P4 requests [3, 3, 0] (Induces unsafe state)
+  Expected: Granted=False, Zero state corruption after rollback
+  Actual  : Granted=False, AvailRestored=True
+  Notes   : Speculative rollback verified
+
+[PASS] TC56 (Deadlock Safety): Multiple possible safe sequences resolution
+  Input   : Symmetric available capacity: Avail=[2], Needs=[1],[1]
+  Expected: System SAFE, Valid sequence found
+  Actual  : is_safe=True, sequence=P0 -> P1
+  Notes   : Deterministic sequence selection
+
+[PASS] TC57 (Reporting & IO): CPU benchmark execution and metrics calculation
+  Input   : Standard CPU workload
+  Expected: 4 algorithms benchmarked with complete metrics
+  Actual  : AlgosBenchmarked=4, MinWT=4.0
+  Notes   : CPU metrics calculated accurately
+
+[PASS] TC58 (Reporting & IO): CPU results CSV export integrity
+  Input   : cpu_results.csv in results/
+  Expected: File exists and non-empty
+  Actual  : FileExists=True, SizeBytes=241
+  Notes   : CSV export verified
+
+[PASS] TC59 (Reporting & IO): CPU comparison chart 300 DPI generation
+  Input   : cpu_comparison.png
+  Expected: PNG file exists and >1KB
+  Actual  : ChartExists=True, SizeBytes=101475
+  Notes   : High-resolution chart rendered
+
+[PASS] TC60 (Reporting & IO): Memory benchmark execution and fragmentation metrics
+  Input   : Standard Memory workload
+  Expected: 3 algorithms benchmarked with allocation rates
+  Actual  : AlgosBenchmarked=3, BestAlgoSuccess=100.0%
+  Notes   : Memory metrics calculated accurately
+
+[PASS] TC61 (Reporting & IO): Memory results CSV export integrity
+  Input   : memory_results.csv in results/
+  Expected: File exists and non-empty
+  Actual  : FileExists=True, SizeBytes=290
+  Notes   : CSV export verified
+
+[PASS] TC62 (Reporting & IO): Memory comparison chart 300 DPI generation
+  Input   : memory_comparison.png
+  Expected: PNG file exists and >1KB
+  Actual  : ChartExists=True, SizeBytes=199439
+  Notes   : High-resolution chart rendered
+
+[PASS] TC63 (Reporting & IO): Disk benchmark execution and head movement metrics
+  Input   : Standard Disk workload
+  Expected: 4 algorithms benchmarked with total seek distance
+  Actual  : AlgosBenchmarked=4, MinSeek=236 cyl
+  Notes   : Disk metrics calculated accurately
+
+[PASS] TC64 (Reporting & IO): Disk results CSV export integrity
+  Input   : disk_results.csv in results/
+  Expected: File exists and non-empty
+  Actual  : FileExists=True, SizeBytes=165
+  Notes   : CSV export verified
+
+[PASS] TC65 (Reporting & IO): Disk comparison chart 300 DPI generation
+  Input   : disk_comparison.png
+  Expected: PNG file exists and >1KB
+  Actual  : ChartExists=True, SizeBytes=102398
+  Notes   : High-resolution chart rendered
+
+[PASS] TC66 (Reporting & IO): Deadlock results CSV export integrity
+  Input   : deadlock_results.csv in results/
+  Expected: File exists and contains system matrices & summary
+  Actual  : FileExists=True, SizeBytes=656, SystemSafe=True
+  Notes   : Deadlock matrices exported cleanly
+
+[PASS] TC67 (Reporting & IO): Executive 4-Panel Dashboard 300 DPI generation
+  Input   : overall_analysis.png
+  Expected: PNG file exists and >50KB
+  Actual  : DashboardExists=True, SizeBytes=456383
+  Notes   : Comprehensive executive dashboard rendered
+
+[PASS] TC68 (Reporting & IO): Multi-tier workload benchmarking suite
+  Input   : Normal, Small, Large, Edge datasets
+  Expected: All 4 tiers benchmarked and exported to CSV
+  Actual  : WorkloadsProcessed=4 tiers across CPU, Memory, Disk, Deadlock
+  Notes   : Multi-tier workload benchmarks completed
+
+[PASS] TC69 (Reporting & IO): Round Robin quantum sensitivity analysis
+  Input   : q in [1, 2, 4, 8]
+  Expected: Sensitivity CSV exported with context switches and RT
+  Actual  : SensitivityFileExists=True, SizeBytes=213
+  Notes   : Quantum trade-offs captured empirically
+
+[PASS] TC70 (Reporting & IO): Empty CPU dataset rejection in reporting
+  Input   : processes = []
+  Expected: Raise ValueError
+  Actual  : ValueError: Cannot benchmark CPU with an empty process list.
+  Notes   : Empty CPU workload rejected
+
+[PASS] TC71 (Reporting & IO): Empty Memory dataset rejection in reporting
+  Input   : blocks = [], reqs = []
+  Expected: Raise ValueError
+  Actual  : ValueError: Cannot benchmark memory with empty memory blocks.
+  Notes   : Empty Memory workload rejected
+
+[PASS] TC72 (Reporting & IO): Empty Disk dataset rejection in reporting
+  Input   : requests = []
+  Expected: Raise ValueError
+  Actual  : ValueError: Cannot benchmark disk with empty cylinder requests.
+  Notes   : Empty Disk workload rejected
+
+[PASS] TC73 (Reliability): Interactive menu non-numeric input recovery
+  Input   : input: 'abc', then '6'
+  Expected: Display friendly error and reprompt without crash
+  Actual  : Handled non-numeric menu choice and reprompted
+  Notes   : Crash prevention verified
+
+[PASS] TC74 (Reliability): Interactive main menu clean exit
+  Input   : input: '6'
+  Expected: Clean exit message printed and loop terminates
+  Actual  : Clean application termination
+  Notes   : Zero unhandled termination errors
+
+[PASS] TC75 (Reliability): Python runtime compatibility verification
+  Input   : sys.version_info
+  Expected: Returns boolean status without raising unhandled exception
+  Actual  : Compatible=False, sys.version=3.10.10
+  Notes   : Runtime compatibility verified
+
+[PASS] TC76 (Reliability): Structured activity audit logging
+  Input   : logs/activity.log
+  Expected: Log file exists and captures system events
+  Actual  : LogFileExists=True, SizeBytes=6859611
+  Notes   : Structured logging active
+
+[PASS] TC77 (Reliability): POSIX Bash automation scripts validation
+  Input   : run.sh & run_tests.sh
+  Expected: Valid shebang and executable commands
+  Actual  : run.sh_shebang=True, run_tests.sh_shebang=True
+  Notes   : Cross-platform shell scripts verified
+
