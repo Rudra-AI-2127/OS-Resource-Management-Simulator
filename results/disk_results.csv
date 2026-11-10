@@ -1,0 +1,5 @@
+Algorithm,Total Head Movement (cylinders),Average Seek Distance (cyl/req),Requests Serviced
+FCFS,640,80.0,8
+SSTF,236,29.5,8
+SCAN,331,41.38,8
+C-SCAN,382,47.75,8
