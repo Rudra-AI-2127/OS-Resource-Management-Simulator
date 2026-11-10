@@ -1,0 +1,5 @@
+Workload,Processes,Resources,Initial Status,Safe Sequence,Test Request,Request Outcome,Detail
+Normal,5,3,SAFE,P1 -> P3 -> P0 -> P2 -> P4,"P1 [1, 0, 2]",GRANTED,Resource request granted for P1. System remains in a SAFE state.
+Small,2,2,SAFE,P0 -> P1,"P1 [1, 0]",GRANTED,Resource request granted for P1. System remains in a SAFE state.
+Large,6,4,SAFE,P0 -> P3 -> P4 -> P1 -> P2 -> P5,"P0 [0, 0, 0, 0]",GRANTED,Resource request granted for P0. System remains in a SAFE state.
+Edge,3,3,SAFE,P0 -> P1 -> P2,"P1 [1, 0, 0]",DENIED,Resource request denied for P1: Granting would transition system into an UNSAFE state.
