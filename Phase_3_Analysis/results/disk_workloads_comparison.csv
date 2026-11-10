@@ -1,0 +1,17 @@
+Workload,Requests Count,Algorithm,Total Head Movement,Avg Seek Distance,Requests Serviced
+Normal,8,FCFS,640,80.0,8
+Normal,8,SSTF,236,29.5,8
+Normal,8,SCAN,331,41.38,8
+Normal,8,C-SCAN,382,47.75,8
+Small,3,FCFS,123,41.0,3
+Small,3,SSTF,162,54.0,3
+Small,3,SCAN,320,106.67,3
+Small,3,C-SCAN,370,123.33,3
+Large,16,FCFS,853,53.31,16
+Large,16,SSTF,232,14.5,16
+Large,16,SCAN,335,20.94,16
+Large,16,C-SCAN,390,24.38,16
+Edge,6,FCFS,647,107.83,6
+Edge,6,SSTF,252,42.0,6
+Edge,6,SCAN,345,57.5,6
+Edge,6,C-SCAN,395,65.83,6

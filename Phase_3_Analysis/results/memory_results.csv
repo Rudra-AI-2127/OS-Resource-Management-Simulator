@@ -1,0 +1,4 @@
+Algorithm,Successful Allocations,Failed Allocations,Allocation Success Rate (%),Total Allocated (KB),Remaining Free Memory (KB),External Fragmentation (KB),Memory Utilization (%)
+First Fit,3,1,75.0,741,959,959,43.6
+Best Fit,4,0,100.0,1167,533,0,68.7
+Worst Fit,3,1,75.0,741,959,959,43.6
