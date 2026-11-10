@@ -1,0 +1,78 @@
+Test ID,Category,Description,Input Specification,Expected Result
+TC01,CPU Scheduling,Normal CPU input validation,"4 processes: P1(0,5), P2(1,3), P3(2,8), P4(3,2)","P1_CT=5, AvgWT=5.75, AvgTAT=10.25"
+TC02,Validation,Negative burst time rejection,burst_time = -5,Raise ValueError
+TC03,Validation,Empty process list validation,[],Raise ValueError
+TC04,Memory Management,Valid memory allocation (Best Fit),"Blocks: [100,500,200,300,600], Reqs: [212,417,112,426]","100% allocation (4/4, 1167 KB)"
+TC05,Memory Management,Insufficient memory rejection,"Blocks: [100, 200], Req: [P1: 500]",Allocation fails gracefully; 0 successful
+TC06,Deadlock Management,Safe resource allocation (Banker's),Canonical Silberschatz 5-process state,"System SAFE, Sequence starts with P1"
+TC07,Deadlock Management,Unsafe resource state detection,"2 procs, Alloc=[2],[2], Max=[4],[4], Avail=[0]","System UNSAFE, empty sequence"
+TC08,Disk Scheduling,Valid disk requests (SSTF),"Reqs: [98, 183, 37, 122, 14, 124, 65, 67], Head: 53",Total head movement = 236 cylinders
+TC09,Validation,Invalid menu option rejection,choice = '99' (range 1-6),Raise ValueError
+TC10,Invalid Types,Process arrival time non-numeric string,arrival_time = 'abc',Raise ValueError
+TC11,Invalid Types,Process burst time boolean type,burst_time = True,Raise ValueError
+TC12,Invalid Types,Memory block size string,blocks = ['one_hundred'],Raise ValueError
+TC13,Invalid Types,Disk cylinder non-integer float,cylinders = [45.7],Raise ValueError
+TC14,Invalid Types,Time quantum string,quantum = 'fast',Raise ValueError
+TC15,Invalid Types,Deadlock matrix string element,Allocation[0][0] = 'A',Raise ValueError
+TC16,Missing Fields,Process missing burst time field,Missing burst_time,Raise ValueError
+TC17,Missing Fields,Process missing PID identifier,Missing pid,Raise ValueError
+TC18,Missing Fields,Memory request missing size,Tuple with 1 element,Raise ValueError
+TC19,Missing Fields,Deadlock empty available vector,available = [],Raise ValueError
+TC20,Missing Fields,Deadlock empty process IDs,process_ids = [],Raise ValueError
+TC21,Duplicates,Duplicate process IDs in CPU input,"P1, P1",Raise ValueError
+TC22,Duplicates,Duplicate process IDs in Memory input,"P1, P1",Raise ValueError
+TC23,Duplicates,Duplicate process IDs in Deadlock matrix,"P0, P0",Raise ValueError
+TC24,Duplicates,Duplicate disk cylinder requests,"[50, 50, 80], Head: 50",Serviced cleanly with 0 seek distance for duplicate
+TC25,Boundary Values,Single CPU process execution,"N=1, BT=7","WT=0, TAT=7"
+TC26,Boundary Values,Simultaneous arrival at AT=0 (SJF),"P1(0,4), P2(0,2), P3(0,6)",Order: P2 -> P1 -> P3
+TC27,Boundary Values,Equal burst times in SJF,"P1(4), P2(4), P3(4)",Order: P1 -> P2 -> P3 (FIFO tie-break)
+TC28,Boundary Values,CPU idle gap between process arrivals,"P1(0,2), P2(5,3)",IDLE segment from t=2 to t=5
+TC29,Boundary Values,Round Robin fine quantum q=1,"P1(2), P2(2), q=1",Strict interleaving P1 -> P2 -> P1 -> P2
+TC30,Boundary Values,Round Robin quantum larger than all bursts,"P1(0,3), P2(1,2), q=10","Matches FCFS completions (CT=3, 5)"
+TC31,Boundary Values,Exact memory block fit,"Block: 250, Req: 250","Allocated=250KB, FreeRemaining=0KB"
+TC32,Boundary Values,Dynamic memory partition splitting,"Block: 500, Req: 150","Allocated=150KB, Remainder 350KB returned to free pool"
+TC33,Boundary Values,Initial disk head at cylinder 0,"Head: 0, Reqs: [10, 50, 100]","Seek sequence starts at 0, movement=100 cyl"
+TC34,Boundary Values,Initial disk head at cylinder 199,"Head: 199, Reqs: [150, 100, 50]","Seek sequence starts at 199, movement=149 cyl"
+TC35,Boundary Values,Disk request at current head position,"Head: 53, Reqs: [53, 100]","Immediate service with 0 seek jump, total=47 cyl"
+TC36,Boundary Values,Disk SCAN downward elevator sweep,"Head: 50, Reqs: [20, 80, 150], dir=down","Visits 20, 0, then 80, 150"
+TC37,Boundary Values,Disk C-SCAN circular wraparound,"Head: 100, Reqs: [10, 180], dir=up",Sequence: 100 -> 180 -> 199 -> 0 -> 10
+TC38,Invalid Matrices,Deadlock row count mismatch,"Max: 1 row, Alloc: 2 rows",Raise ValueError
+TC39,Invalid Matrices,Deadlock column count mismatch,"Max: 3 cols, Alloc: 2 cols",Raise ValueError
+TC40,Invalid Matrices,Allocation exceeds Max Demand,Alloc > Max,Raise ValueError
+TC41,Invalid Matrices,Available length does not match resource count,Avail len != resources,Raise ValueError
+TC42,Invalid Matrices,Empty deadlock matrices,"max=[], alloc=[]",Raise ValueError
+TC43,Invalid Matrices,Negative allocation count in matrix,Alloc=-1,Raise ValueError
+TC44,Invalid Matrices,Negative available vector entry,Avail=-3,Raise ValueError
+TC45,Invalid Parameters,Round Robin time quantum q=0,quantum = 0,Raise ValueError
+TC46,Invalid Parameters,Round Robin negative time quantum,quantum = -3,Raise ValueError
+TC47,Invalid Parameters,Negative cylinder request rejection,cylinder = -10,Raise ValueError
+TC48,Invalid Parameters,Cylinder exceeding total capacity rejection,cylinder = 250 >= 200,Raise ValueError
+TC49,Invalid Parameters,Initial head position out of bounds,head = 250 >= 200,Raise ValueError
+TC50,Invalid Parameters,Total cylinders zero,total_cylinders = 0,Raise ValueError
+TC51,Invalid Parameters,Invalid disk sweep direction string,direction = 'diagonal',Raise ValueError
+TC52,Deadlock Safety,Safe dynamic resource request granted,"P1 requests [1, 0, 2]","Granted=True, State safely committed"
+TC53,Deadlock Safety,Request exceeding declared claim rejected,"P1 requests [5, 5, 5] (Need=[1, 2, 2])","Granted=False, diagnostic error"
+TC54,Deadlock Safety,Request exceeding current availability forced to wait,"P0 requests [0, 4, 0] (Avail=[3, 3, 2])","Granted=False, Process must wait"
+TC55,Deadlock Safety,Unsafe request denied with speculative rollback,"P4 requests [3, 3, 0] (Induces unsafe state)","Granted=False, Zero state corruption after rollback"
+TC56,Deadlock Safety,Multiple possible safe sequences resolution,"Symmetric available capacity: Avail=[2], Needs=[1],[1]","System SAFE, Valid sequence found"
+TC57,Reporting & IO,CPU benchmark execution and metrics calculation,Standard CPU workload,4 algorithms benchmarked with complete metrics
+TC58,Reporting & IO,CPU results CSV export integrity,cpu_results.csv in results/,File exists and non-empty
+TC59,Reporting & IO,CPU comparison chart 300 DPI generation,cpu_comparison.png,PNG file exists and >1KB
+TC60,Reporting & IO,Memory benchmark execution and fragmentation metrics,Standard Memory workload,3 algorithms benchmarked with allocation rates
+TC61,Reporting & IO,Memory results CSV export integrity,memory_results.csv in results/,File exists and non-empty
+TC62,Reporting & IO,Memory comparison chart 300 DPI generation,memory_comparison.png,PNG file exists and >1KB
+TC63,Reporting & IO,Disk benchmark execution and head movement metrics,Standard Disk workload,4 algorithms benchmarked with total seek distance
+TC64,Reporting & IO,Disk results CSV export integrity,disk_results.csv in results/,File exists and non-empty
+TC65,Reporting & IO,Disk comparison chart 300 DPI generation,disk_comparison.png,PNG file exists and >1KB
+TC66,Reporting & IO,Deadlock results CSV export integrity,deadlock_results.csv in results/,File exists and contains system matrices & summary
+TC67,Reporting & IO,Executive 4-Panel Dashboard 300 DPI generation,overall_analysis.png,PNG file exists and >50KB
+TC68,Reporting & IO,Multi-tier workload benchmarking suite,"Normal, Small, Large, Edge datasets",All 4 tiers benchmarked and exported to CSV
+TC69,Reporting & IO,Round Robin quantum sensitivity analysis,"q in [1, 2, 4, 8]",Sensitivity CSV exported with context switches and RT
+TC70,Reporting & IO,Empty CPU dataset rejection in reporting,processes = [],Raise ValueError
+TC71,Reporting & IO,Empty Memory dataset rejection in reporting,"blocks = [], reqs = []",Raise ValueError
+TC72,Reporting & IO,Empty Disk dataset rejection in reporting,requests = [],Raise ValueError
+TC73,Reliability,Interactive menu non-numeric input recovery,"input: 'abc', then '6'",Display friendly error and reprompt without crash
+TC74,Reliability,Interactive main menu clean exit,input: '6',Clean exit message printed and loop terminates
+TC75,Reliability,Python runtime compatibility verification,sys.version_info,Returns boolean status without raising unhandled exception
+TC76,Reliability,Structured activity audit logging,logs/activity.log,Log file exists and captures system events
+TC77,Reliability,POSIX Bash automation scripts validation,run.sh & run_tests.sh,Valid shebang and executable commands
