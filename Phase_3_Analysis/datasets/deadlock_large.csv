@@ -1,0 +1,15 @@
+section,pid,A,B,C,D
+available,,2,1,0,0
+alloc,P0,0,0,1,2
+alloc,P1,2,0,0,0
+alloc,P2,0,0,3,4
+alloc,P3,2,3,5,4
+alloc,P4,0,3,3,2
+alloc,P5,0,0,1,4
+max,P0,0,0,1,2
+max,P1,2,7,5,0
+max,P2,6,6,5,6
+max,P3,4,3,5,6
+max,P4,0,6,5,2
+max,P5,0,6,5,6
+request,P0,0,0,0,0
