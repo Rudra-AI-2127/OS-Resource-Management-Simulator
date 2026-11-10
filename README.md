@@ -3,6 +3,9 @@
 
 An integrated, modular Python application engineered to simulate, benchmark, and analyze core operating system resource management algorithms. Developed for the Operating Systems Lab Capstone (Submission Deadline: 14 November 2026).
 
+> 📘 **Looking for the master feature & presentation guide?**  
+> Read the complete handbook: [**`PROJECT_COMPLETE_GUIDE.md`**](file:///c:/Users/rpsra/Downloads/Operating-Systems-Lab/PROJECT_COMPLETE_GUIDE.md) — includes in-depth explanations of all 15 algorithms, quick-start commands, a 10-minute live demonstration script, and answers to the top 10 faculty viva questions.
+
 ---
 
 ## 1. Overview & Modules
