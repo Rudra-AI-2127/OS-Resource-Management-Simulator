@@ -1,0 +1,13 @@
+Workload,Block Count,Request Count,Algorithm,Successful Allocations,Failed Allocations,Success Rate (%),Total Allocated (KB),Remaining Free (KB),External Frag (KB)
+Normal,5,4,First Fit,3,1,75.0,741,959,959
+Normal,5,4,Best Fit,4,0,100.0,1167,533,0
+Normal,5,4,Worst Fit,3,1,75.0,741,959,959
+Small,2,2,First Fit,2,0,100.0,500,100,0
+Small,2,2,Best Fit,2,0,100.0,500,100,0
+Small,2,2,Worst Fit,1,1,50.0,150,450,450
+Large,8,8,First Fit,8,0,100.0,2750,824,0
+Large,8,8,Best Fit,8,0,100.0,2750,824,0
+Large,8,8,Worst Fit,7,1,87.5,2000,1574,1574
+Edge,3,3,First Fit,2,1,66.67,299,301,0
+Edge,3,3,Best Fit,2,1,66.67,299,301,0
+Edge,3,3,Worst Fit,2,1,66.67,299,301,0
