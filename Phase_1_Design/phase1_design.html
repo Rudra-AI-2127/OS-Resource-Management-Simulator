@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OS Simulator — Phase 1 Design Master</title>
+    
+<style>
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #1e293b;
+        background-color: #ffffff;
+        max-width: 950px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    h1 {
+        color: #0f172a;
+        font-size: 2.2rem;
+        border-bottom: 3px solid #3b82f6;
+        padding-bottom: 10px;
+        margin-top: 30px;
+        font-weight: 800;
+    }
+    h2 {
+        color: #1e3a8a;
+        font-size: 1.6rem;
+        border-bottom: 1.5px solid #cbd5e1;
+        padding-bottom: 6px;
+        margin-top: 35px;
+        page-break-after: avoid;
+    }
+    h3 {
+        color: #1e40af;
+        font-size: 1.25rem;
+        margin-top: 25px;
+        page-break-after: avoid;
+    }
+    h4 {
+        color: #334155;
+        font-size: 1.05rem;
+        margin-top: 15px;
+    }
+    p, li {
+        font-size: 1.0rem;
+        color: #334155;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 0.92rem;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid #cbd5e1;
+        padding: 10px 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #f1f5f9;
+        color: #0f172a;
+        font-weight: 700;
+    }
+    tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+    pre {
+        background-color: #0f172a;
+        color: #f8fafc;
+        padding: 14px 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        page-break-inside: avoid;
+    }
+    code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f5f9;
+        color: #0284c7;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+    pre code {
+        background-color: transparent;
+        color: inherit;
+        padding: 0;
+    }
+    blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 16px;
+        margin: 16px 0;
+        color: #475569;
+        background-color: #eff6ff;
+        padding: 10px 16px;
+        border-radius: 0 4px 4px 0;
+    }
+    hr {
+        border: 0;
+        height: 1px;
+        background: #e2e8f0;
+        margin: 30px 0;
+    }
+    .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border-radius: 4px;
+        background-color: #dbeafe;
+        color: #1e40af;
+    }
+    @media print {
+        body {
+            padding: 0;
+            max-width: 100%;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <h1>Phase 1: Comprehensive System Architecture &amp; Design Specification</h1>
+<h2>Operating Systems Resource Management Simulator</h2>
+<br/>
+<p><strong>Course</strong>: Operating Systems Laboratory Capstone  </p>
+<p><strong>Document</strong>: Phase 1 Unified Design Master (<code>Phase_1_Design/phase1_design.md</code>)  </p>
+<p><strong>Specification Reference</strong>: Course Faculty Blueprint Page 10–14  </p>
+<p><strong>Status</strong>: Verified &amp; Approved for Academic Evaluation  </p>
+<br/>
+<hr/>
+<br/>
+<h2>1. Problem Statement &amp; Scope</h2>
+<br/>
+<p>Modern multitasking computing environments require kernel subsystems that manage finite hardware resources:</p>
+<ol><li><strong>CPU Scheduler</strong>: Distributes processing cycles among competing tasks to maximize throughput and minimize latency.</li><li><strong>Memory Manager</strong>: Dynamically partitions physical memory to accommodate variable process workloads without excessive internal or external fragmentation.</li><li><strong>Deadlock Manager</strong>: Arbitrates access to multiple non-preemptible shared resources, guaranteeing deadlock prevention or avoidance.</li><li><strong>Secondary Storage (Disk) Scheduler</strong>: Optimizes electro-mechanical or solid-state disk arm trajectories to minimize head movement and latency.</li></ol>
+<br/>
+<p>The <strong>OS Resource Management Simulator</strong> delivers a rigorous, integrated academic platform in Python 3.11+ that models these subsystems deterministically, executes standard and custom workloads, generates visual telemetry, and exports reproducible empirical datasets for comparative analysis.</p>
+<br/>
+<hr/>
+<br/>
+<h2>2. Project Objectives</h2>
+<br/>
+<ol><li><strong>Subsystem Integration</strong>: Build a unified application under a single controller (<code>main.py</code>) integrating 4 resource domains and a comparative benchmark subsystem.</li><li><strong>Algorithm Implementation</strong>: Implement 15 foundational algorithms:</li></ol>
+<ul><li>*CPU*: FCFS, SJF (Non-preemptive), Round Robin (Preemptive), Priority Scheduling (Non-preemptive).</li><li>*Memory*: First Fit, Best Fit, Worst Fit with dynamic partition splitting.</li><li>*Deadlock*: Dijkstra&#x27;s Banker&#x27;s Safety Algorithm, Need Matrix derivation, and speculative Resource-Request algorithm.</li><li>*Disk*: FCFS, Shortest Seek Time First (SSTF), SCAN (Elevator), C-SCAN (Circular SCAN).</li></ul>
+<ol><li><strong>Mathematical Fidelity</strong>: Implement exact metrics for Waiting Time, Turnaround Time, Response Time, CPU Utilization, External Fragmentation, and Total Head Movement.</li><li><strong>Software Engineering Excellence</strong>: Modular decomposition, dataclass modeling, strict type annotations, structured logging (<code>logs/activity.log</code>), comprehensive test suites (115 tests, 77 test cases), and portable execution scripts (<code>run.sh</code>, <code>run_tests.sh</code>).</li><li><strong>Interactive Visualization</strong>: Multi-panel publication-grade 300 DPI Matplotlib charts and a Streamlit presentation dashboard (<code>app.py</code>).</li></ol>
+<br/>
+<hr/>
+<br/>
+<h2>3. High-Level Architectural Design</h2>
+<br/>
+<p>The system follows a strict layered architectural pattern:</p>
+<br/>
+<pre><code>
++-----------------------------------------------------------------------------------+
+|                            PRESENTATION &amp; CLI LAYER                               |
+|       Terminal Menu (main.py)         |        Streamlit Web GUI (app.py)         |
++-----------------------------------------------------------------------------------+
+                                        |
+                                        v
++-----------------------------------------------------------------------------------+
+|                        BENCHMARKING &amp; REPORTING ENGINE                            |
+|                          (modules/reporting.py)                                   |
+|   - Multi-tier Workload Evaluation           - 300 DPI Matplotlib Chart Renderer  |
+|   - CSV Metric Exporter                      - Quantum Sensitivity Scanner        |
++-----------------------------------------------------------------------------------+
+                                        |
+                                        v
++-----------------------------------------------------------------------------------+
+|                                CORE SIMULATION LAYER                              |
+|  cpu_scheduling.py  |  memory_management.py  |  deadlock.py  |  disk_scheduling.py|
++-----------------------------------------------------------------------------------+
+                                        |
+                                        v
++-----------------------------------------------------------------------------------+
+|                             UTILITY &amp; DEFENSIVE LAYER                             |
+|    validators.py (Dataclasses)  |   logger.py (Audit)   |   helpers.py (Tables)   |
++-----------------------------------------------------------------------------------+
+</code></pre>
+<br/>
+<hr/>
+<br/>
+<h2>4. Subsystem Specifications</h2>
+<br/>
+<h3>4.1 CPU Scheduling Subsystem (<code>modules/cpu_scheduling.py</code>)</h3>
+<ul><li><strong>Data Model</strong>: <code>Process(pid, arrival_time, burst_time, priority)</code></li><li><strong>Metrics</strong>:</li><li><em>CT</em>: Completion Time</li><li><em>TAT = CT - AT</em></li><li><em>WT = TAT - BT</em></li><li><em>RT = t_{\text{first\_dispatch}} - AT</em></li><li><em>\text{CPU Utilization } = \frac{\sum BT}{\max(CT) - \min(AT)} \times 100\%</em></li><li><strong>Execution Engine</strong>:</li><li>Dispatches arriving processes based on algorithm criteria.</li><li>Maintains execution timeline segments <code>(pid, start_time, end_time)</code>.</li><li>Generates ASCII and high-resolution timeline Gantt charts.</li></ul>
+<br/>
+<h3>4.2 Dynamic Memory Management Subsystem (<code>modules/memory_management.py</code>)</h3>
+<ul><li><strong>Partitioning Model</strong>: Contiguous physical memory blocks with dynamic partition splitting.</li><li><strong>Allocation Policies</strong>:</li><li>*First Fit*: Selects first block with <em>size \ge request</em>.</li><li>*Best Fit*: Selects block with <em>\min(size - request \ge 0)</em>.</li><li>*Worst Fit*: Selects block with <em>\max(size - request \ge 0)</em>.</li><li><strong>Splitting Mechanics</strong>: When block size exceeds request, the block is divided into an allocated segment of exact request size and a remaining free block returned to the free block pool.</li><li><strong>Metrics</strong>: Allocation Success Rate (%), Total Memory Allocated (KB), Memory Utilization (%), and External Fragmentation (KB).</li></ul>
+<br/>
+<h3>4.3 Deadlock Management Subsystem (<code>modules/deadlock.py</code>)</h3>
+<ul><li><strong>State Model</strong>: <code>DeadlockState(process_ids, resource_ids, available, allocation, max_demand)</code></li><li><strong>Safety Algorithm</strong>: Evaluates whether <em>Work = Available</em> and iteratively satisfies <em>Need[i] \le Work</em>, liberating <em>Allocation[i]</em> into <em>Work</em>.</li><li><strong>Resource Request Algorithm</strong>: Evaluates dynamic claims against <em>Need</em> and <em>Available</em>, performs tentative state mutation, and runs safety verification before granting.</li></ul>
+<br/>
+<h3>4.4 Disk Head Scheduling Subsystem (<code>modules/disk_scheduling.py</code>)</h3>
+<ul><li><strong>Parameters</strong>: Cylinder requests sequence, initial head position, total cylinder range <em>[0, C-1]</em>, and initial direction.</li><li><strong>Algorithms</strong>: FCFS, SSTF (greedy closest seek), SCAN (sweeps to boundary <em>C-1</em> before reversing), C-SCAN (sweeps to boundary, jumps to cylinder 0 without servicing, and continues in original direction).</li><li><strong>Metrics</strong>: Total Head Movement (cylinders), Average Seek Distance (cylinders/request), and Trajectory Path.</li></ul>
+<br/>
+<hr/>
+<br/>
+<h2>5. Data Flow &amp; Verification Pipeline</h2>
+<br/>
+<pre><code>
+flowchart TD
+    A[Input Data: CSV or Interactive CLI] --&gt; B[Defensive Validation: utils/validators.py]
+    B --&gt;|Validation Error| E[Raise ValueError &amp; Log Warning]
+    B --&gt;|Valid Data| C[Core Simulation Modules]
+    C --&gt; D[Result Aggregation: Metrics &amp; Gantt]
+    D --&gt; F[CLI Formatted Display: utils/helpers.py]
+    D --&gt; G[CSV Exporters: results/ &amp; Phase_3_Analysis/]
+    D --&gt; H[Matplotlib 300 DPI Charts: charts/]
+    D --&gt; I[Streamlit Dashboard: app.py]
+</code></pre>
+<br/>
+<hr/>
+<br/>
+<h2>6. Phase Acceptance Criteria</h2>
+<br/>
+<table>
+<tr><th>Subsystem</th><th>Requirement</th><th>Pass Criteria</th><th>Status</th></tr>
+<tr><td><strong>CPU Scheduling</strong></td><td>All 4 algorithms compute exact metrics</td><td>FCFS, SJF, RR, Priority match analytical models</td><td>Verified</td></tr>
+<tr><td><strong>Memory Management</strong></td><td>Dynamic splitting &amp; fragmentation tracking</td><td>Best Fit 100% allocation on preset; First Fit reports 959 KB ExtFrag</td><td>Verified</td></tr>
+<tr><td><strong>Deadlock Avoidance</strong></td><td>Banker&#x27;s safe sequence &amp; request check</td><td>Canonical sequence <code>&lt;P1, P3, P0, P2, P4&gt;</code> generated; safe requests granted</td><td>Verified</td></tr>
+<tr><td><strong>Disk Scheduling</strong></td><td>Track seek distance &amp; elevator trajectory</td><td>SSTF services in 236 cyl; SCAN in 331 cyl; C-SCAN in 382 cyl</td><td>Verified</td></tr>
+<tr><td><strong>Test Suite</strong></td><td>Comprehensive automated validation</td><td>115 unittests pass; 77 test cases in matrix</td><td>Verified</td></tr>
+<tr><td><strong>Presentation</strong></td><td>Interactive terminal &amp; Streamlit dashboard</td><td>Both interfaces functional with live telemetry</td><td>Verified</td></tr>
+</table>
+</body>
+</html>
