@@ -67,6 +67,16 @@ class DeadlockState:
 
 def validate_positive_int(value: Any, field_name: str) -> int:
     """Validates that a value can be converted to an integer and is strictly positive (> 0)."""
+    if isinstance(value, bool):
+        err_msg = f"{field_name} cannot be a boolean: {value!r}"
+        logger.warning(err_msg)
+        raise ValueError(err_msg)
+
+    if isinstance(value, float):
+        err_msg = f"{field_name} must be an integer, not float: {value!r}"
+        logger.warning(err_msg)
+        raise ValueError(err_msg)
+
     try:
         val = int(value)
     except (ValueError, TypeError):
@@ -84,6 +94,16 @@ def validate_positive_int(value: Any, field_name: str) -> int:
 
 def validate_non_negative_int(value: Any, field_name: str) -> int:
     """Validates that a value can be converted to an integer and is non-negative (>= 0)."""
+    if isinstance(value, bool):
+        err_msg = f"{field_name} cannot be a boolean: {value!r}"
+        logger.warning(err_msg)
+        raise ValueError(err_msg)
+
+    if isinstance(value, float):
+        err_msg = f"{field_name} must be an integer, not float: {value!r}"
+        logger.warning(err_msg)
+        raise ValueError(err_msg)
+
     try:
         val = int(value)
     except (ValueError, TypeError):
@@ -119,7 +139,11 @@ def validate_process_list(raw_processes: list[Union[dict, Process]]) -> list[Pro
             bt = item.burst_time
             prio = item.priority
         elif isinstance(item, dict):
-            pid = str(item.get("pid", f"P{idx + 1}")).strip()
+            if "pid" not in item or not str(item["pid"]).strip():
+                err_msg = f"Process at index {idx} is missing required 'pid' field."
+                logger.warning(err_msg)
+                raise ValueError(err_msg)
+            pid = str(item["pid"]).strip()
             at = item.get("arrival_time", item.get("at", 0))
             bt = item.get("burst_time", item.get("bt"))
             prio = item.get("priority", item.get("prio", 0))
@@ -172,6 +196,7 @@ def validate_memory_inputs(
         valid_blocks.append(validate_positive_int(b, f"Memory block #{idx + 1} size"))
 
     valid_requests: list[tuple[str, int]] = []
+    seen_req_pids: set[str] = set()
     for idx, r in enumerate(requests):
         if isinstance(r, (int, float)) or (isinstance(r, str) and r.isdigit()):
             pid = f"P{idx + 1}"
@@ -186,8 +211,15 @@ def validate_memory_inputs(
             logger.warning(err_msg)
             raise ValueError(err_msg)
 
-        valid_size = validate_positive_int(size, f"Memory request for {pid}")
-        valid_requests.append((str(pid), valid_size))
+        pid_str = str(pid).strip()
+        if pid_str in seen_req_pids:
+            err_msg = f"Duplicate process request ID detected: {pid_str!r}."
+            logger.warning(err_msg)
+            raise ValueError(err_msg)
+        seen_req_pids.add(pid_str)
+
+        valid_size = validate_positive_int(size, f"Memory request for {pid_str}")
+        valid_requests.append((pid_str, valid_size))
 
     return valid_blocks, valid_requests
 
@@ -240,7 +272,23 @@ def validate_bankers_matrix(
     for j in range(m):
         validate_non_negative_int(available[j], f"Available[{j}]")
 
-    p_ids = process_ids or [f"P{i}" for i in range(n)]
+    if process_ids is not None:
+        if len(process_ids) == 0:
+            err_msg = "Process IDs list cannot be empty."
+            logger.warning(err_msg)
+            raise ValueError(err_msg)
+        if len(process_ids) != n:
+            err_msg = f"Process IDs count ({len(process_ids)}) does not match allocation rows ({n})."
+            logger.warning(err_msg)
+            raise ValueError(err_msg)
+        if len(set(process_ids)) != len(process_ids):
+            err_msg = "Duplicate process IDs detected in deadlock matrix."
+            logger.warning(err_msg)
+            raise ValueError(err_msg)
+        p_ids = process_ids
+    else:
+        p_ids = [f"P{i}" for i in range(n)]
+
     r_ids = resource_ids or [chr(ord('A') + j) for j in range(m)]
 
     state = DeadlockState(
