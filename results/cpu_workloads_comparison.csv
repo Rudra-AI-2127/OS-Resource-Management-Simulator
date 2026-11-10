@@ -1,0 +1,17 @@
+Workload,Process Count,Algorithm,Avg Waiting Time,Avg Turnaround Time,Avg Response Time,CPU Utilization (%)
+Normal,4,FCFS,5.75,10.25,5.75,100.0
+Normal,4,SJF,4.0,8.5,4.0,100.0
+Normal,4,Round Robin (q=2),7.25,11.75,2.0,100.0
+Normal,4,Priority,4.25,8.75,4.25,100.0
+Small,2,FCFS,1.0,3.5,1.0,100.0
+Small,2,SJF,1.0,3.5,1.0,100.0
+Small,2,Round Robin (q=2),1.5,4.0,0.5,100.0
+Small,2,Priority,1.0,3.5,1.0,100.0
+Large,8,FCFS,17.0,22.62,17.0,100.0
+Large,8,SJF,14.25,19.88,14.25,100.0
+Large,8,Round Robin (q=2),21.62,27.25,5.62,100.0
+Large,8,Priority,15.0,20.62,15.0,100.0
+Edge,4,FCFS,6.0,10.0,6.0,100.0
+Edge,4,SJF,6.0,10.0,6.0,100.0
+Edge,4,Round Robin (q=2),9.0,13.0,3.0,100.0
+Edge,4,Priority,6.0,10.0,6.0,100.0

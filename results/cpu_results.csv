@@ -1,0 +1,5 @@
+Algorithm,Avg Waiting Time,Avg Turnaround Time,Avg Response Time,Total Execution Time,CPU Utilization (%)
+FCFS,5.75,10.25,5.75,18,100.0
+SJF,4.0,8.5,4.0,18,100.0
+Round Robin (q=2),7.25,11.75,2.0,18,100.0
+Priority,4.25,8.75,4.25,18,100.0
