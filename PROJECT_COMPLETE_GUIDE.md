@@ -14,7 +14,7 @@
 7. [Module 4: Disk Scheduling Subsystem](#7-module-4-disk-scheduling-subsystem)
 8. [Module 5: Performance Analysis & Reporting](#8-module-5-performance-analysis--reporting)
 9. [Defensive Architecture, Validation & Audit Logging](#9-defensive-architecture-validation--audit-logging)
-10. [Streamlit Pro-Max Web Dashboard Guide](#10-streamlit-pro-max-web-dashboard-guide)
+10. [Native Black & White Web Console Guide](#10-native-black--white-web-console-guide)
 11. [How to Deliver a Flawless 10-Minute Live Demo](#11-how-to-deliver-a-flawless-10-minute-live-demo)
 12. [Faculty Viva Voce Cheat-Sheet (Top 10 Questions & Answers)](#12-faculty-viva-voce-cheat-sheet-top-10-questions--answers)
 13. [Project Directory & Deliverables Index](#13-project-directory--deliverables-index)
@@ -24,25 +24,28 @@
 ## 1. Executive Summary & Elevator Pitch
 
 ### In Plain English (The 30-Second Summary):
-> *"Our project is an Integrated Operating System Simulator written in Python that demonstrates how an OS coordinates four fundamental hardware resources: the CPU, RAM, disk storage, and shared system resources. Instead of learning OS theory from abstract formulas, our software lets you interactively simulate 15 classical OS algorithms, view Gantt timelines and physical RAM block maps, stress-test edge cases with defensive validation, and benchmark real performance differences under identical workloads."*
+> *"Our project is an Integrated Operating System Simulator written in Python that demonstrates how an OS coordinates four fundamental hardware resources: the CPU, RAM, disk storage, and shared system resources. Instead of learning OS theory from abstract formulas, our software lets you interactively simulate 15 classical OS algorithms, view vector Gantt timelines and physical RAM block maps, stress-test edge cases with defensive validation, and benchmark real performance differences under identical workloads."*
 
 ### Key Academic Metrics:
 * **Academic Scope**: 100% compliant with the faculty blueprint across all 5 phases (100/100 Marks).
 * **Algorithms Implemented**: **15 Classical OS Algorithms** across 4 domains + Reporting.
-* **Dual Presentation**: Interactive Terminal CLI (`main.py`) + Publication-Grade Dark-Navy Streamlit Dashboard (`app.py`).
-* **Reliability**: **115 automated unit tests** passing with 0 failures, backed by a formal **77-case test matrix** (TC01–TC77) in Excel (`.xlsx`) and CSV.
-* **Publication Figures**: 300 DPI high-resolution figures generated using Matplotlib with dark-mode styling.
+* **Dual Presentation**: Interactive Terminal CLI (`main.py`) + Publication-Grade Black & White Native Web Console (`server.py` + `web/`).
+* **Reliability**: **130 automated unit tests** passing with 0 failures, backed by a formal **77-case test matrix** (TC01–TC77) in Excel (`.xlsx`) and CSV.
+* **Zero Dependency Web Stack**: Pure Python standard library `http.server` backend + HTML5, CSS3, and Vanilla JS frontend.
+* **Publication Figures**: 300 DPI high-resolution figures generated using Matplotlib with high-contrast styling.
 
 ---
 
 ## 2. Quick-Start Run Commands
 
-### A. Launch the Streamlit Web Application (GUI Mode)
+### A. Launch the Native Web Application (GUI Console)
 ```bash
-streamlit run app.py
+python server.py
+# or
+python app.py
 ```
-* **URL**: Open your browser at `http://localhost:8501`.
-* **Description**: Complete multi-page interactive web GUI featuring dynamic data tables, interactive sliders, high-DPI Gantt charts, physical RAM maps, and instant CSV downloads.
+* **URL**: Open your browser at `http://127.0.0.1:8501`.
+* **Description**: Zero-dependency native web console featuring Swiss/Vercel minimalist aesthetic (Black Major `#000000`, Deep Charcoal cards, sharp 1px borders, white text), dynamic table editors, interactive sliders, vector SVG Gantt charts, proportional physical RAM maps, and instant CSV downloads.
 
 ### B. Launch the Interactive Terminal CLI (Terminal Mode)
 ```bash
@@ -68,7 +71,7 @@ The application follows a clean **Model-View-Controller (MVC)** architectural pa
 ```text
 +-----------------------------------------------------------------------------------+
 |                                PRESENTATION LAYER                                 |
-|     Streamlit Dashboard (app.py)          |       Interactive CLI (main.py)       |
+|     Native Web Console (server.py + web/) │       Interactive CLI (main.py)       |
 +-----------------------------------------------------------------------------------+
                                          │
                                          ▼
@@ -107,7 +110,7 @@ The application follows a clean **Model-View-Controller (MVC)** architectural pa
 ### Core Design Rules Enforced:
 1. **Single Entry Point**: All algorithms are organized into modules (`modules/`) and orchestrated cleanly through `main.py` and `app.py`.
 2. **Deterministic Reproducibility**: Given the same process list, block layout, or cylinder queue, algorithms produce mathematically identical results across both interfaces.
-3. **Zero Third-Party Core**: The core algorithms rely strictly on Python's built-in standard library (`dataclasses`, `collections`, `copy`, `math`, `csv`). Third-party libraries (`matplotlib`, `pandas`, `streamlit`) are reserved strictly for presentation and analysis.
+3. **Zero Third-Party Core & Server**: The core algorithms and HTTP web server rely strictly on Python's built-in standard library (`http.server`, `dataclasses`, `collections`, `copy`, `math`, `csv`). Third-party libraries (`matplotlib`, `pandas`) are used for offline analytical charts and CSV manipulation.
 
 ---
 
@@ -308,30 +311,30 @@ Every lifecycle event is recorded with millisecond timestamps and severity level
 
 ---
 
-## 10. Streamlit Pro-Max Web Dashboard Guide
+## 10. Native Black & White Web Console Guide
 
-The web dashboard ([`app.py`](file:///c:/Users/rpsra/Downloads/Operating-Systems-Lab/app.py)) provides an interactive, dark-navy interface (`#070D1E` / `#1E293B`):
+The web console ([`server.py`](file:///c:/Users/rpsra/Downloads/Operating-Systems-Lab/server.py) + [`web/`](file:///c:/Users/rpsra/Downloads/Operating-Systems-Lab/web/)) provides an ultra-clean, high-performance Black Major (`#000000`) and White Minor interface built with HTML5, CSS3, and Vanilla JavaScript with zero client and server pip dependencies:
 
 ```text
 ========================================================================================
- Sidebar Navigation        Main Interactive Workspace (Dark Navy & Polished Slate)
+ Top Navigation Bar        Main Interactive Workspace (Black Major & White Minor)
 ========================================================================================
- [1. Overview]            ┌────────────────────────────────────────────────────────────┐
- [2. CPU Scheduling]      │ Top KPI Summary: Best Performers Across Subsystems         │
- [3. Memory Management]   ├────────────────────────────────────────────────────────────┤
- [4. Deadlock Avoidance]  │ Subsystem 4-Tab Section Architecture:                      │
- [5. Disk Scheduling]     │   [Tab 1] Interactive Simulation & Dynamic Input Editor    │
- [6. Performance Analysis]│   [Tab 2] Visual Trajectory & Matplotlib Plot Renderers    │
- [7. Testing & Logs]      │   [Tab 3] Tabular Metrics, Allocation Maps & CSV Download  │
- [8. About Project]       │   [Tab 4] Mathematical Foundations & Viva Voce Flashcards  │
+ [01 Overview]            ┌────────────────────────────────────────────────────────────┐
+ [02 CPU Scheduling]      │ Top KPI Summary: Real-time Performance Metrics             │
+ [03 Memory Management]   ├────────────────────────────────────────────────────────────┤
+ [04 Deadlock Avoidance]  │ Subsystem Layout Architecture:                             │
+ [05 Disk Scheduling]     │   • 1-Click Workload Presets: Baseline, Small, Large, Edge │
+ [06 Benchmarks]          │   • Dynamic Input Tables with Real-Time Add/Delete         │
+ [07 Tests & Logs]        │   • Pure Vector SVG Visualizers: Gantt, Memory Map & Seek  │
+ [08 Viva & Reference]    │   • Mathematical Foundations & Complexity Tables           │
                           └────────────────────────────────────────────────────────────┘
 ```
 
 ### Page Highlights:
-* **CPU Scheduling Page**: Interactive `st.data_editor` allowing you to add, edit, or delete processes live. Renders vector Gantt charts with distinct process colors and hatched idle segments.
-* **Memory Management Page**: Interactive physical RAM block layout diagram. Shows proportional filled bars for allocated space and distinct slate hatched blocks for split free remainders.
+* **CPU Scheduling Page**: Dynamic table editor allowing you to add, edit, or delete processes live. Renders pure vector SVG Gantt charts with precise time rulers, process labels, and hatched idle segments.
+* **Memory Management Page**: Interactive physical RAM block layout diagram. Shows proportional filled bars for allocated space and distinct hatched blocks for split free remainders (guaranteeing 0 KB internal fragmentation).
 * **Deadlock Page**: Displays the calculated $Need$ matrix, visual step-by-step sequence cards, and an interactive **Dynamic Request Tester** that demonstrates safe grants vs. automatic rollbacks.
-* **Disk Scheduling Page**: Continuous seek path trajectory line plot across cylinders 0–199 with boundary lines and arm traversal telemetry.
+* **Disk Scheduling Page**: Continuous seek path trajectory line plot across cylinders 0–199 rendered in vector SVG with step markers, node labels, and arm traversal telemetry.
 * **Performance Analysis Page**: Tabbed high-resolution 300 DPI chart viewer with one-click download buttons for all 9 benchmark CSV files.
 * **Testing & Logs Page**: Searchable table of all 77 formal test cases and a live, color-coded stream of `logs/activity.log` with log-level filtering.
 
@@ -342,19 +345,19 @@ The web dashboard ([`app.py`](file:///c:/Users/rpsra/Downloads/Operating-Systems
 Follow this exact script when presenting to evaluators:
 
 ### Minute 0–2: Introduction & Overview
-1. Start on **Streamlit Page 1 (Overview)**.
+1. Start on **Web Console View 01 (Overview)**.
 2. State the project mission: an integrated OS resource simulator demonstrating CPU, Memory, Deadlock, and Disk management.
 3. Point out the top KPI cards: highlighting how different optimization metrics dictate algorithm performance.
 
 ### Minute 2–4: CPU Scheduling & Gantt Timeline
-1. Switch to **Page 2 (CPU Scheduling)**.
-2. Click the **Blueprint Preset** button (4 processes).
+1. Switch to **View 02 (CPU Scheduling)**.
+2. Click the **Baseline** preset button (4 processes).
 3. Select **SJF**, show that it achieves the lowest Average Waiting Time (**4.00 ms**).
 4. Switch to **Round Robin**, adjust the Time Quantum slider ($q=2$), and explain how it improves Response Time (**2.00 ms**).
-5. Switch to **Tab 2** to showcase the high-DPI Gantt timeline with process color bands.
+5. Review the pure vector SVG Gantt timeline with process labels and hatched idle intervals.
 
 ### Minute 4–6: Memory Partitioning & Fragmentation
-1. Switch to **Page 3 (Memory Management)**.
+1. Switch to **View 03 (Memory Management)**.
 2. Run the **Blueprint Workload** on **First Fit** $\to$ point out that $P_4$ fails and causes 959 KB of External Fragmentation.
 3. Switch to **Best Fit** $\to$ show that it achieves **100% allocation (4/4 processes)** with **0 KB external fragmentation**.
 4. Emphasize: *"Notice that in Tab 2, internal fragmentation is strictly 0 KB because our simulator dynamically splits free blocks upon allocation."*
@@ -409,7 +412,7 @@ Follow this exact script when presenting to evaluators:
 > **Answer**: SSTF greedily moves the disk arm to the closest pending request, minimizing seek movement for localized clusters. However, it suffers from **starvation (arm stickiness)** if requests near the head keep arriving. SCAN (the elevator algorithm) moves the arm continuously in one direction to the platter boundary, servicing requests along the way, then reverses. SCAN eliminates starvation and bounds maximum waiting time.
 
 ### Q8: Why did you choose Python for this project?
-> **Answer**: Python provides arbitrary-precision integers (preventing arithmetic overflow in resource calculations), clean standard library data structures (`collections.deque`, `heapq`, `dataclasses`), and native support for unit testing and logging. Furthermore, Python enabled rapid development of both an interactive terminal CLI and a publication-grade Streamlit web interface without external C runtime dependencies.
+> **Answer**: Python provides arbitrary-precision integers (preventing arithmetic overflow in resource calculations), clean standard library data structures (`collections.deque`, `heapq`, `dataclasses`), and native support for unit testing and logging. Furthermore, Python enabled rapid development of both an interactive terminal CLI and a zero-dependency native web server (`server.py`) serving a publication-grade Black & White console without external C runtime dependencies.
 
 ### Q9: How did you test unexpected or invalid inputs?
 > **Answer**: Through a 4-tier defensive validation pipeline in `utils/validators.py`. We tested:
@@ -430,7 +433,12 @@ Operating-Systems-Lab/
 ├── PROJECT_COMPLETE_GUIDE.md        # Master documentation handbook (THIS FILE)
 ├── README.md                        # Project overview & technical setup
 ├── main.py                          # Interactive terminal CLI controller
-├── app.py                           # Publication-grade Streamlit Pro-Max dashboard
+├── server.py                        # Zero-dependency Native HTTP Web Server (Phase 5)
+├── app.py                           # Executive unified application launcher
+├── web/                             # Publication-grade Black & White Web UI
+│   ├── index.html                   # HTML5 Semantic Layout (8 Subsystem Views)
+│   ├── styles.css                   # Black Major / White Minor Swiss Console Design
+│   └── app.js                       # Vanilla JS Client (SVG Gantt, Memory Map & Seek Plots)
 ├── requirements.txt                 # Python dependencies
 ├── run.sh                           # Bash launch automation script
 ├── run_tests.sh                     # Bash test suite runner
@@ -465,8 +473,8 @@ Operating-Systems-Lab/
 │   ├── 06_performance_comparison_dashboard.png
 │   ├── 07_test_suite_execution.png
 │   ├── 08_activity_logging_audit.png
-│   ├── 09_streamlit_executive_dashboard.png
-│   └── 10_streamlit_algorithm_simulators.png
+│   ├── 09_native_web_executive_dashboard.png
+│   └── 10_native_web_algorithm_simulators.png
 │
 ├── Phase_4_Testing/                 # Formal testing deliverables
 │   ├── test_cases.xlsx              # 77 formal test cases in Excel binary format

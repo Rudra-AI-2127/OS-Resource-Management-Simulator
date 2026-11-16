@@ -52,7 +52,12 @@ The simulator integrates five specialized subsystems into a single interactive t
 ```
 Operating-Systems-Lab/
 ├── main.py                     # Central application interactive controller
-├── app.py                      # Optional Streamlit dashboard (Phase 5)
+├── server.py                   # Zero-dependency Native HTTP Web Server (Phase 5)
+├── app.py                      # Executive unified application launcher
+├── web/                        # Publication-grade Black & White Web UI
+│   ├── index.html              # HTML5 Semantic Layout (8 Subsystem Views)
+│   ├── styles.css              # Black Major / White Minor Swiss Console Design
+│   └── app.js                  # Vanilla JS Client (SVG Gantt, Memory Map & Seek Plots)
 ├── requirements.txt            # Minimal dependency definitions
 ├── README.md                   # Project documentation & setup instructions
 ├── run.sh                      # Automated Bash application launcher
@@ -125,18 +130,28 @@ pip install -r requirements.txt
 
 ## 5. Execution Instructions
 
-### Running the Interactive Simulator
+### Running the Native Web Console (Recommended)
+
+Start the publication-grade Black & White Web UI backed by the zero-dependency Python HTTP server:
+
+```bash
+python server.py        # Starts server at http://127.0.0.1:8501/
+# or
+python app.py           # Unified launcher
+# or
+./run.sh                # Automated launcher script
+```
+
+Open your browser to `http://127.0.0.1:8501/` to access the full 8-view interactive console with vector SVG Gantt charts, proportional memory allocation maps, and disk trajectory plots.
+
+### Running the Interactive Terminal Simulator
 
 Using Python directly:
 ```bash
 python3 main.py     # Linux / macOS / WSL
 python main.py      # Windows
-```
-
-Using the automated Bash script:
-```bash
-chmod +x run.sh
-./run.sh
+# or
+python app.py --cli
 ```
 
 ### Interactive Menu Navigation

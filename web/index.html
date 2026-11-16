@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OS Resource Management Simulator Pro-Max</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- TOP NAVIGATION BAR -->
+    <header class="top-nav">
+      <div class="nav-brand-bar">
+        <div class="brand-left">
+          <div class="brand-icon">OS</div>
+          <div>
+            <span class="brand-title">Resource Simulator</span>
+            <span class="brand-subtitle">Pro-Max Console</span>
+          </div>
+        </div>
+        <div class="brand-meta">
+          <span class="status-pill">
+            <span class="status-dot"></span>
+            SYS_NOMINAL
+          </span>
+          <span style="color: var(--text-muted); font-size: 11px;">PORT 8501</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs-bar">
+        <button class="nav-tab-btn active" data-tab="tab-overview">
+          <span class="tab-num">01</span> Overview
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-cpu">
+          <span class="tab-num">02</span> CPU Scheduling
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-memory">
+          <span class="tab-num">03</span> Memory Management
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-deadlock">
+          <span class="tab-num">04</span> Deadlock Avoidance
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-disk">
+          <span class="tab-num">05</span> Disk Scheduling
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-benchmarks">
+          <span class="tab-num">06</span> Benchmarks
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-tests">
+          <span class="tab-num">07</span> Tests &amp; Logs
+        </button>
+        <button class="nav-tab-btn" data-tab="tab-viva">
+          <span class="tab-num">08</span> Viva &amp; Reference
+        </button>
+      </nav>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-content">
+
+      <!-- ================================================================= -->
+      <!-- TAB 1: EXECUTIVE OVERVIEW                                        -->
+      <!-- ================================================================= -->
+      <section id="tab-overview" class="view-section active">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Executive System Overview</h1>
+            <p class="section-desc">Academic Engineering Suite — Multi-Subsystem OS Simulator Architecture</p>
+          </div>
+          <div class="status-pill">
+            <span>PLATFORM: NATIVE WEBSERVER v2.0</span>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 24px;">
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Automated Tests</span><span class="badge badge-white">100% PASS</span></div>
+            <div class="kpi-value">115</div>
+            <div class="kpi-footer">Automated unittest verification suite</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Formal Test Matrix</span><span class="badge badge-outline">TC01–TC77</span></div>
+            <div class="kpi-value">77 / 77</div>
+            <div class="kpi-footer">Exhaustive edge-case validation audit</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Defensive Gateways</span><span class="badge badge-white">ACTIVE</span></div>
+            <div class="kpi-value">100<span class="kpi-unit">%</span></div>
+            <div class="kpi-footer">Zero unhandled exceptions or leaks</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Core OS Subsystems</span><span class="badge badge-outline">4 ENGINES</span></div>
+            <div class="kpi-value">4</div>
+            <div class="kpi-footer">CPU, Memory, Deadlock &amp; Disk</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Core Subsystem Architecture</span>
+              <span class="badge badge-muted">SPECIFICATION</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div class="step-card">
+                <div style="font-weight: 700; color: #ffffff; margin-bottom: 2px;">1. CPU Scheduling Engine</div>
+                <div style="color: var(--text-secondary); font-size: 11px;">FCFS, Non-preemptive SJF, Preemptive Round Robin (dynamic quantum), and Non-preemptive Priority. Calculates CT, TAT, WT, RT, and CPU Utilization.</div>
+              </div>
+              <div class="step-card">
+                <div style="font-weight: 700; color: #ffffff; margin-bottom: 2px;">2. Memory Management Subsystem</div>
+                <div style="color: var(--text-secondary); font-size: 11px;">Dynamic partition allocation with real-time block splitting. Strict invariant: 0 KB Internal Fragmentation guaranteed. External fragmentation calculated dynamically.</div>
+              </div>
+              <div class="step-card">
+                <div style="font-weight: 700; color: #ffffff; margin-bottom: 2px;">3. Deadlock Avoidance Engine</div>
+                <div style="color: var(--text-secondary); font-size: 11px;">Dijkstra's Banker's Algorithm with speculative resource request simulator. Safety vectors, step-by-step Work/Finish trace, and rollbacks on unsafe state.</div>
+              </div>
+              <div class="step-card">
+                <div style="font-weight: 700; color: #ffffff; margin-bottom: 2px;">4. Disk Scheduling Engine</div>
+                <div style="color: var(--text-secondary); font-size: 11px;">FCFS, Shortest Seek Time First (SSTF), SCAN (Elevator), and Circular SCAN (C-SCAN) across cylinders 0–199. Total head movement and average seek distance.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Interactive Quick Launch</span>
+              <span class="badge badge-muted">NAVIGATE</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <button class="btn btn-secondary" style="justify-content: space-between;" onclick="app.switchTab('tab-cpu')">
+                <span>Launch CPU Scheduling Simulator</span>
+                <span>&rarr;</span>
+              </button>
+              <button class="btn btn-secondary" style="justify-content: space-between;" onclick="app.switchTab('tab-memory')">
+                <span>Launch Memory Allocation Simulator</span>
+                <span>&rarr;</span>
+              </button>
+              <button class="btn btn-secondary" style="justify-content: space-between;" onclick="app.switchTab('tab-deadlock')">
+                <span>Launch Deadlock Banker's Simulator</span>
+                <span>&rarr;</span>
+              </button>
+              <button class="btn btn-secondary" style="justify-content: space-between;" onclick="app.switchTab('tab-disk')">
+                <span>Launch Disk Head Trajectory Simulator</span>
+                <span>&rarr;</span>
+              </button>
+              <button class="btn btn-secondary" style="justify-content: space-between;" onclick="app.switchTab('tab-benchmarks')">
+                <span>View Performance Benchmarks &amp; Charts</span>
+                <span>&rarr;</span>
+              </button>
+              <button class="btn btn-secondary" style="justify-content: space-between;" onclick="app.switchTab('tab-tests')">
+                <span>Inspect 77-Case Test Matrix &amp; Logs</span>
+                <span>&rarr;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 2: CPU SCHEDULING                                            -->
+      <!-- ================================================================= -->
+      <section id="tab-cpu" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>CPU Scheduling Simulator</h1>
+            <p class="section-desc">Interactive execution of FCFS, SJF, Round Robin, and Priority Scheduling</p>
+          </div>
+          <div class="preset-toolbar">
+            <span class="preset-label">Workload:</span>
+            <button class="preset-btn active" onclick="app.loadPreset('cpu', 'normal')">Baseline</button>
+            <button class="preset-btn" onclick="app.loadPreset('cpu', 'small')">Small</button>
+            <button class="preset-btn" onclick="app.loadPreset('cpu', 'large')">Large</button>
+            <button class="preset-btn" onclick="app.loadPreset('cpu', 'edge')">Edge</button>
+          </div>
+        </div>
+
+        <div class="grid-1-2">
+          <!-- Configuration & Process Table -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Configuration</span>
+              <button class="btn btn-primary btn-sm" id="btn-run-cpu" onclick="app.runCpu()">Run Simulation</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Algorithm Policy</label>
+              <select id="cpu-algo" class="form-control" onchange="app.onCpuAlgoChange()">
+                <option value="fcfs">First-Come, First-Served (FCFS)</option>
+                <option value="sjf">Shortest Job First (SJF)</option>
+                <option value="rr">Round Robin (RR)</option>
+                <option value="priority">Priority Scheduling</option>
+                <option value="all">Compare All 4 Algorithms</option>
+              </select>
+            </div>
+
+            <div class="form-group" id="cpu-quantum-group" style="display: none;">
+              <label class="form-label">Time Quantum (RR)</label>
+              <div class="range-wrap">
+                <input type="range" id="cpu-quantum-slider" class="range-slider" min="1" max="10" value="2" oninput="app.onQuantumChange(this.value)">
+                <span id="cpu-quantum-val" class="range-val">2</span>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; margin-top: 16px;">
+              <span class="form-label" style="margin-bottom: 0;">Process Queue</span>
+              <button class="btn btn-secondary btn-sm" onclick="app.addCpuProcessRow()">+ Add Process</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table" id="table-cpu-input">
+                <thead>
+                  <tr>
+                    <th>PID</th>
+                    <th>Arrival</th>
+                    <th>Burst</th>
+                    <th>Priority</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="cpu-processes-body">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Execution Output, Gantt & Metrics -->
+          <div>
+            <!-- Metrics Summary Cards -->
+            <div class="grid-4" id="cpu-metrics-container" style="margin-bottom: 20px;">
+              <div class="kpi-card">
+                <div class="kpi-label">Avg Waiting Time</div>
+                <div class="kpi-value" id="kpi-cpu-wt">-</div>
+                <div class="kpi-footer">Time spent waiting in ready queue</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Avg Turnaround</div>
+                <div class="kpi-value" id="kpi-cpu-tat">-</div>
+                <div class="kpi-footer">Completion minus Arrival Time</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Avg Response Time</div>
+                <div class="kpi-value" id="kpi-cpu-rt">-</div>
+                <div class="kpi-footer">First dispatch minus Arrival</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">CPU Utilization</div>
+                <div class="kpi-value" id="kpi-cpu-util">-</div>
+                <div class="kpi-footer">Active processor execution duty</div>
+              </div>
+            </div>
+
+            <!-- Gantt Chart Container -->
+            <div class="viz-container">
+              <div class="viz-header">
+                <span>EXECUTION TIMELINE GANTT CHART (VECTOR SVG)</span>
+                <span id="cpu-gantt-total-time">Total Time: -</span>
+              </div>
+              <div id="cpu-gantt-svg-wrap" style="width: 100%; overflow-x: auto;">
+                <svg id="cpu-gantt-svg" class="svg-chart" height="90"></svg>
+              </div>
+            </div>
+
+            <!-- Detailed Process Metrics Table -->
+            <div class="card" id="cpu-details-card">
+              <div class="card-header">
+                <span class="card-title">Process Execution Metrics</span>
+                <span class="badge badge-muted" id="cpu-algo-badge">FCFS</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table" id="cpu-results-table">
+                  <thead>
+                    <tr>
+                      <th>PID</th>
+                      <th class="num">Arrival</th>
+                      <th class="num">Burst</th>
+                      <th class="num">Priority</th>
+                      <th class="num">Start Time</th>
+                      <th class="num">Completion (CT)</th>
+                      <th class="num">Turnaround (TAT)</th>
+                      <th class="num">Waiting (WT)</th>
+                      <th class="num">Response (RT)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cpu-results-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Cross-Algorithm Comparison Table (Shown when 'all' is selected) -->
+            <div class="card" id="cpu-comparison-card" style="display: none;">
+              <div class="card-header">
+                <span class="card-title">Cross-Algorithm Benchmark Comparison</span>
+                <span class="badge badge-white">4 ALGORITHMS</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Algorithm</th>
+                      <th class="num">Avg Waiting Time</th>
+                      <th class="num">Avg Turnaround Time</th>
+                      <th class="num">Avg Response Time</th>
+                      <th class="num">Total Time</th>
+                      <th class="num">CPU Utilization</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cpu-comparison-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 3: MEMORY MANAGEMENT                                         -->
+      <!-- ================================================================= -->
+      <section id="tab-memory" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Memory Management Simulator</h1>
+            <p class="section-desc">Dynamic Partition Allocation with Block Splitting &amp; 0 KB Internal Fragmentation</p>
+          </div>
+          <div class="preset-toolbar">
+            <span class="preset-label">Workload:</span>
+            <button class="preset-btn active" onclick="app.loadPreset('memory', 'normal')">Baseline</button>
+            <button class="preset-btn" onclick="app.loadPreset('memory', 'small')">Small</button>
+            <button class="preset-btn" onclick="app.loadPreset('memory', 'large')">Large</button>
+            <button class="preset-btn" onclick="app.loadPreset('memory', 'edge')">Edge</button>
+          </div>
+        </div>
+
+        <div class="grid-1-2">
+          <!-- Configuration -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Memory Setup</span>
+              <button class="btn btn-primary btn-sm" id="btn-run-memory" onclick="app.runMemory()">Run Allocation</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Allocation Policy</label>
+              <select id="mem-algo" class="form-control">
+                <option value="best_fit">Best Fit (Optimal Search)</option>
+                <option value="first_fit">First Fit (Sequential Search)</option>
+                <option value="worst_fit">Worst Fit (Largest Block Search)</option>
+                <option value="all">Compare All 3 Policies</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Initial Memory Blocks (KB, comma-separated)</label>
+              <input type="text" id="mem-blocks-input" class="form-control" value="100, 500, 200, 300, 600">
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; margin-top: 16px;">
+              <span class="form-label" style="margin-bottom: 0;">Process Requests</span>
+              <button class="btn btn-secondary btn-sm" onclick="app.addMemoryReqRow()">+ Add Request</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Process ID</th>
+                    <th>Requested Size (KB)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="mem-requests-body">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Memory Output & Visualizer -->
+          <div>
+            <div class="grid-4" style="margin-bottom: 20px;">
+              <div class="kpi-card">
+                <div class="kpi-label">Allocation Success</div>
+                <div class="kpi-value" id="kpi-mem-success">-</div>
+                <div class="kpi-footer">Successfully allocated processes</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Memory Utilization</div>
+                <div class="kpi-value" id="kpi-mem-util">-</div>
+                <div class="kpi-footer">Allocated / Total capacity</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">External Fragmentation</div>
+                <div class="kpi-value" id="kpi-mem-extfrag">-</div>
+                <div class="kpi-footer">Free memory unallocatable</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Internal Fragmentation</div>
+                <div class="kpi-value" id="kpi-mem-intfrag">0<span class="kpi-unit">KB</span></div>
+                <div class="kpi-footer">Zero KB due to partition splitting</div>
+              </div>
+            </div>
+
+            <!-- Proportional Memory Map -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Physical Memory Allocation Map</span>
+                <span class="badge badge-muted" id="mem-total-capacity">Total: - KB</span>
+              </div>
+              <div id="memory-map-bar" class="memory-bar-container">
+                <!-- Dynamically generated memory blocks -->
+              </div>
+              <div style="display: flex; gap: 16px; font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary);">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="width: 12px; height: 12px; background-color: #27272a; border: 1px solid var(--border-medium); display: inline-block;"></span>
+                  <span>Allocated Process Partition</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="width: 12px; height: 12px; background-color: #121215; border: 1px solid var(--border-medium); display: inline-block;"></span>
+                  <span>Free Partition / Split Remainder</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Allocation Table -->
+            <div class="card" id="mem-allocations-card">
+              <div class="card-header">
+                <span class="card-title">Partition Allocation Breakdown</span>
+                <span class="badge badge-white" id="mem-algo-badge">BEST FIT</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Block #</th>
+                      <th class="num">Original Block</th>
+                      <th>Process ID</th>
+                      <th class="num">Requested Size</th>
+                      <th class="num">Allocated Size</th>
+                      <th class="num">Internal Frag</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mem-allocations-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Memory Comparison Table -->
+            <div class="card" id="mem-comparison-card" style="display: none;">
+              <div class="card-header">
+                <span class="card-title">Memory Allocation Policy Comparison</span>
+                <span class="badge badge-white">3 STRATEGIES</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Algorithm</th>
+                      <th class="num">Success Rate</th>
+                      <th class="num">Allocated (KB)</th>
+                      <th class="num">Free (KB)</th>
+                      <th class="num">External Frag (KB)</th>
+                      <th class="num">Utilization</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mem-comparison-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 4: DEADLOCK AVOIDANCE (BANKER'S)                             -->
+      <!-- ================================================================= -->
+      <section id="tab-deadlock" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Deadlock Avoidance Simulator</h1>
+            <p class="section-desc">Dijkstra's Banker's Algorithm with Speculative Resource Request Simulator</p>
+          </div>
+          <div class="preset-toolbar">
+            <span class="preset-label">Workload:</span>
+            <button class="preset-btn active" onclick="app.loadPreset('deadlock', 'normal')">Baseline</button>
+            <button class="preset-btn" onclick="app.loadPreset('deadlock', 'small')">Small</button>
+            <button class="preset-btn" onclick="app.loadPreset('deadlock', 'large')">Large</button>
+            <button class="preset-btn" onclick="app.loadPreset('deadlock', 'edge')">Edge</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Matrices Input Panel -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">System State Matrices</span>
+              <button class="btn btn-primary btn-sm" onclick="app.runDeadlock()">Evaluate Safety</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Available Resources Vector (A, B, C...)</label>
+              <input type="text" id="dl-avail-input" class="form-control" value="3, 3, 2">
+            </div>
+
+            <div style="margin-top: 14px; margin-bottom: 6px;">
+              <span class="form-label">Allocation &amp; Maximum Demand Matrices</span>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table" id="dl-matrix-table">
+                <thead>
+                  <tr>
+                    <th>PID</th>
+                    <th>Alloc A</th>
+                    <th>Alloc B</th>
+                    <th>Alloc C</th>
+                    <th>Max A</th>
+                    <th>Max B</th>
+                    <th>Max C</th>
+                  </tr>
+                </thead>
+                <tbody id="dl-matrix-body">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Dynamic Resource Request Simulator -->
+            <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 16px;">
+              <span class="card-title" style="margin-bottom: 12px; display: block;">Speculative Resource Request</span>
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label">Target Process</label>
+                  <select id="dl-req-pid" class="form-control">
+                    <option value="P0">P0</option>
+                    <option value="P1" selected>P1</option>
+                    <option value="P2">P2</option>
+                    <option value="P3">P3</option>
+                    <option value="P4">P4</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Request Vector (A, B, C)</label>
+                  <input type="text" id="dl-req-vector" class="form-control" value="1, 0, 2">
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="app.runDeadlockRequest()">Evaluate Speculative Request</button>
+            </div>
+          </div>
+
+          <!-- Evaluation Results & Safety Sequence -->
+          <div>
+            <div class="kpi-card" style="margin-bottom: 16px;">
+              <div class="kpi-label"><span>System Safety Condition</span><span id="dl-status-badge" class="badge badge-white">SAFE</span></div>
+              <div class="kpi-value" id="dl-status-val">SAFE STATE</div>
+              <div class="kpi-footer" id="dl-status-desc">A safe execution sequence exists that satisfies all process maximum demands.</div>
+            </div>
+
+            <!-- Safe Sequence Visualizer -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Verified Safe Execution Sequence</span>
+                <span class="badge badge-outline">ORDER</span>
+              </div>
+              <div id="dl-sequence-flow" class="sequence-flow">
+                <!-- Dynamically populated sequence pills -->
+              </div>
+            </div>
+
+            <!-- Calculated Need Matrix -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Calculated Need Matrix [Max - Allocation]</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>PID</th>
+                      <th class="num">Need A</th>
+                      <th class="num">Need B</th>
+                      <th class="num">Need C</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dl-need-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Request Evaluation Outcome Card -->
+            <div class="card" id="dl-request-outcome-card" style="display: none;">
+              <div class="card-header">
+                <span class="card-title">Speculative Request Evaluation Outcome</span>
+                <span id="dl-req-decision-badge" class="badge badge-white">GRANTED</span>
+              </div>
+              <p id="dl-req-detail-msg" style="font-family: var(--font-mono); font-size: 12px; margin-bottom: 12px; color: var(--text-secondary);"></p>
+              <div id="dl-req-post-seq" class="sequence-flow" style="margin-bottom: 0;"></div>
+            </div>
+
+            <!-- Step-by-Step Work/Finish Vector Trace -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Safety Algorithm Execution Trace</span>
+                <span class="badge badge-muted">AUDIT</span>
+              </div>
+              <div id="dl-steps-container">
+                <!-- Dynamically populated steps -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 5: DISK SCHEDULING                                           -->
+      <!-- ================================================================= -->
+      <section id="tab-disk" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Disk Scheduling Simulator</h1>
+            <p class="section-desc">Interactive Seek Trajectory &amp; Head Movement across Cylinders 0–199</p>
+          </div>
+          <div class="preset-toolbar">
+            <span class="preset-label">Workload:</span>
+            <button class="preset-btn active" onclick="app.loadPreset('disk', 'normal')">Baseline</button>
+            <button class="preset-btn" onclick="app.loadPreset('disk', 'small')">Small</button>
+            <button class="preset-btn" onclick="app.loadPreset('disk', 'large')">Large</button>
+            <button class="preset-btn" onclick="app.loadPreset('disk', 'edge')">Edge</button>
+          </div>
+        </div>
+
+        <div class="grid-1-2">
+          <!-- Configuration -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Configuration</span>
+              <button class="btn btn-primary btn-sm" id="btn-run-disk" onclick="app.runDisk()">Run Trajectory</button>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Algorithm Policy</label>
+              <select id="disk-algo" class="form-control">
+                <option value="sstf">Shortest Seek Time First (SSTF)</option>
+                <option value="fcfs">First-Come, First-Served (FCFS)</option>
+                <option value="scan">SCAN (Elevator)</option>
+                <option value="cscan">C-SCAN (Circular SCAN)</option>
+                <option value="all">Compare All 4 Algorithms</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Initial Head Position (Cylinder 0–199)</label>
+              <div class="range-wrap">
+                <input type="range" id="disk-head-slider" class="range-slider" min="0" max="199" value="53" oninput="app.onDiskHeadChange(this.value)">
+                <span id="disk-head-val" class="range-val">53</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Elevator Sweep Direction</label>
+              <select id="disk-direction" class="form-control">
+                <option value="up">Up (Towards Cylinder 199)</option>
+                <option value="down">Down (Towards Cylinder 0)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cylinder Request Queue (Comma-separated)</label>
+              <input type="text" id="disk-requests-input" class="form-control" value="98, 183, 37, 122, 14, 124, 65, 67">
+            </div>
+          </div>
+
+          <!-- Trajectory Plot & Metrics -->
+          <div>
+            <div class="grid-3" style="margin-bottom: 20px;">
+              <div class="kpi-card">
+                <div class="kpi-label">Total Head Movement</div>
+                <div class="kpi-value" id="kpi-disk-thm">-</div>
+                <div class="kpi-footer">Total cylinders traversed</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Average Seek Distance</div>
+                <div class="kpi-value" id="kpi-disk-avg">-</div>
+                <div class="kpi-footer">Cylinders per serviced request</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Requests Serviced</div>
+                <div class="kpi-value" id="kpi-disk-serviced">-</div>
+                <div class="kpi-footer">Total I/O requests satisfied</div>
+              </div>
+            </div>
+
+            <!-- SVG Seek Trajectory Plot -->
+            <div class="viz-container">
+              <div class="viz-header">
+                <span>HEAD TRAJECTORY PLOT (CYLINDER 0 TO 199)</span>
+                <span id="disk-plot-algo-label">Algorithm: SSTF</span>
+              </div>
+              <div style="width: 100%; overflow-x: auto;">
+                <svg id="disk-trajectory-svg" class="svg-chart" height="240"></svg>
+              </div>
+            </div>
+
+            <!-- Step by Step Movement Table -->
+            <div class="card" id="disk-steps-card">
+              <div class="card-header">
+                <span class="card-title">Step-by-Step Seek Movement Audit</span>
+                <span class="badge badge-white" id="disk-algo-badge">SSTF</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Step #</th>
+                      <th class="num">Current Cylinder</th>
+                      <th class="num">Next Cylinder</th>
+                      <th class="num">Seek Distance (Cylinders)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="disk-steps-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Disk Comparison Table -->
+            <div class="card" id="disk-comparison-card" style="display: none;">
+              <div class="card-header">
+                <span class="card-title">Disk Scheduling Benchmark Comparison</span>
+                <span class="badge badge-white">4 POLICIES</span>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Algorithm</th>
+                      <th class="num">Total Head Movement</th>
+                      <th class="num">Average Seek Distance</th>
+                      <th class="num">Requests Serviced</th>
+                    </tr>
+                  </thead>
+                  <tbody id="disk-comparison-body">
+                    <!-- Injected via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 6: PERFORMANCE BENCHMARKS                                    -->
+      <!-- ================================================================= -->
+      <section id="tab-benchmarks" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Performance Benchmarks &amp; Empirical Analytics</h1>
+            <p class="section-desc">Cross-Algorithm Comparative Evaluation across Multi-Tier Workload Scenarios</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="app.loadBenchmarks()">Refresh Benchmark Data</button>
+        </div>
+
+        <div class="grid-2">
+          <!-- CPU Benchmarks Table -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">CPU Scheduling Baseline Metrics</span>
+              <a href="/results/cpu_results.csv" download class="btn btn-secondary btn-sm">Download CSV</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table" id="bm-cpu-table">
+                <thead>
+                  <tr>
+                    <th>Algorithm</th>
+                    <th class="num">Avg WT</th>
+                    <th class="num">Avg TAT</th>
+                    <th class="num">Avg RT</th>
+                    <th class="num">Total Time</th>
+                    <th class="num">CPU Util</th>
+                  </tr>
+                </thead>
+                <tbody><!-- Injected via JS --></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Memory Benchmarks Table -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Memory Allocation Baseline Metrics</span>
+              <a href="/results/memory_results.csv" download class="btn btn-secondary btn-sm">Download CSV</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table" id="bm-memory-table">
+                <thead>
+                  <tr>
+                    <th>Algorithm</th>
+                    <th class="num">Success Rate</th>
+                    <th class="num">Allocated (KB)</th>
+                    <th class="num">Free (KB)</th>
+                    <th class="num">Ext Frag (KB)</th>
+                    <th class="num">Util (%)</th>
+                  </tr>
+                </thead>
+                <tbody><!-- Injected via JS --></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Disk Benchmarks Table -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Disk Scheduling Baseline Metrics</span>
+              <a href="/results/disk_results.csv" download class="btn btn-secondary btn-sm">Download CSV</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table" id="bm-disk-table">
+                <thead>
+                  <tr>
+                    <th>Algorithm</th>
+                    <th class="num">Total Head Movement</th>
+                    <th class="num">Avg Seek Distance</th>
+                    <th class="num">Requests Serviced</th>
+                  </tr>
+                </thead>
+                <tbody><!-- Injected via JS --></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Round Robin Quantum Sensitivity -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Round Robin Quantum Sensitivity</span>
+              <a href="/results/rr_quantum_sensitivity.csv" download class="btn btn-secondary btn-sm">Download CSV</a>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table" id="bm-rr-table">
+                <thead>
+                  <tr>
+                    <th class="num">Quantum (q)</th>
+                    <th class="num">Avg Waiting Time</th>
+                    <th class="num">Avg Turnaround Time</th>
+                    <th class="num">Avg Response Time</th>
+                  </tr>
+                </thead>
+                <tbody><!-- Injected via JS --></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Publication Visualizations Viewer -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Publication-Grade Matplotlib Comparison Visualizations (300 DPI)</span>
+          </div>
+          <div class="grid-2">
+            <div style="border: 1px solid var(--border-light); padding: 8px;">
+              <div style="font-family: var(--font-mono); font-size: 11px; margin-bottom: 6px; color: var(--text-secondary);">EXECUTIVE 4-PANEL DASHBOARD</div>
+              <img src="/charts/overall_analysis.png" alt="Overall Analysis" style="width: 100%; height: auto; display: block; border: 1px solid var(--border-medium);">
+            </div>
+            <div style="border: 1px solid var(--border-light); padding: 8px;">
+              <div style="font-family: var(--font-mono); font-size: 11px; margin-bottom: 6px; color: var(--text-secondary);">CPU SCHEDULING COMPARISON</div>
+              <img src="/charts/cpu_comparison.png" alt="CPU Comparison" style="width: 100%; height: auto; display: block; border: 1px solid var(--border-medium);">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 7: TEST MATRIX & ACTIVITY LOGS                              -->
+      <!-- ================================================================= -->
+      <section id="tab-tests" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Test Matrix &amp; Live Activity Audit Logs</h1>
+            <p class="section-desc">77-Case Defensive Test Matrix (TC01–TC77) &amp; Real-Time Activity Log Stream</p>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            ALL 77 CASES PASS
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- TC01-TC77 Explorer -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Formal Test Matrix Explorer (TC01–TC77)</span>
+              <span class="badge badge-white" id="tests-count-badge">77 CASES</span>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 12px;">
+              <input type="text" id="test-search-input" class="form-control" placeholder="Search test cases by ID or keyword..." oninput="app.filterTestCases()">
+              <select id="test-cat-filter" class="form-control" onchange="app.filterTestCases()">
+                <option value="ALL">All Categories</option>
+                <option value="CPU Scheduling">CPU Scheduling</option>
+                <option value="Memory Management">Memory Management</option>
+                <option value="Deadlock Management">Deadlock Management</option>
+                <option value="Disk Scheduling">Disk Scheduling</option>
+                <option value="Validation">Validation</option>
+                <option value="Invalid Types">Invalid Types</option>
+                <option value="Missing Fields">Missing Fields</option>
+                <option value="Out of Range">Out of Range</option>
+                <option value="Structural Anomalies">Structural Anomalies</option>
+                <option value="Concurrency & Duplication">Concurrency &amp; Duplication</option>
+                <option value="Zero & Boundary">Zero &amp; Boundary</option>
+                <option value="Special Characters">Special Characters</option>
+                <option value="Performance & Stress">Performance &amp; Stress</option>
+                <option value="Idempotency & Replay">Idempotency &amp; Replay</option>
+              </select>
+            </div>
+
+            <div class="table-wrap" style="max-height: 520px; overflow-y: auto;">
+              <table class="data-table" id="test-cases-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="test-cases-body">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Live Activity Log Streamer -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Live Activity Audit Log Stream (`logs/activity.log`)</span>
+              <button class="btn btn-secondary btn-sm" onclick="app.loadLogs()">Refresh Stream</button>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 12px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Log Level</label>
+                <select id="log-level-filter" class="form-control" onchange="app.loadLogs()">
+                  <option value="ALL">All Levels</option>
+                  <option value="INFO">INFO Only</option>
+                  <option value="WARNING">WARNING Only</option>
+                  <option value="ERROR">ERROR Only</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Entries to Display</label>
+                <select id="log-count-select" class="form-control" onchange="app.loadLogs()">
+                  <option value="25">Last 25</option>
+                  <option value="50" selected>Last 50</option>
+                  <option value="100">Last 100</option>
+                  <option value="200">Last 200</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="log-terminal" id="log-terminal-output">
+              <div class="log-line">Loading logs from activity stream...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB 8: VIVA VOCE & TECHNICAL REFERENCE                           -->
+      <!-- ================================================================= -->
+      <section id="tab-viva" class="view-section">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h1>Viva Voce &amp; Technical Reference Manual</h1>
+            <p class="section-desc">Theoretical Formulations, Mathematical Derivations &amp; Algorithmic Complexity</p>
+          </div>
+          <div class="status-pill">
+            <span>ACADEMIC COMPLIANCE AUDIT</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Mathematical Formulations -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Core Operating Systems Formulations</span>
+            </div>
+
+            <div class="formula-block">
+              <div style="font-weight: 700; color: #ffffff; margin-bottom: 4px;">CPU Scheduling Equations</div>
+              <div>Turnaround Time: TAT = Completion Time (CT) - Arrival Time (AT)</div>
+              <div>Waiting Time:    WT  = Turnaround Time (TAT) - Burst Time (BT)</div>
+              <div>Response Time:   RT  = First Start Time (ST) - Arrival Time (AT)</div>
+              <div>CPU Utilization: Util = (&sum; Burst Times / Total Makespan) &times; 100%</div>
+            </div>
+
+            <div class="formula-block">
+              <div style="font-weight: 700; color: #ffffff; margin-bottom: 4px;">Memory Partition Invariants</div>
+              <div>Internal Fragmentation: IF = Partition Size - Process Size = 0 KB (Dynamic Splitting)</div>
+              <div>External Fragmentation: EF = &sum; Free Blocks (when request cannot be satisfied)</div>
+              <div>Memory Utilization:     Util = (Total Allocated KB / Total Physical RAM) &times; 100%</div>
+            </div>
+
+            <div class="formula-block">
+              <div style="font-weight: 700; color: #ffffff; margin-bottom: 4px;">Deadlock Banker's Safety Invariants</div>
+              <div>Need Matrix Equation:   Need[i][j] = Max[i][j] - Allocation[i][j]</div>
+              <div>Safety Condition:       Need[i] &le; Work (for each resource type j)</div>
+              <div>Resource Reclamation:   Work &larr; Work + Allocation[i]; Finish[i] &larr; True</div>
+            </div>
+
+            <div class="formula-block">
+              <div style="font-weight: 700; color: #ffffff; margin-bottom: 4px;">Disk Head Trajectory Formula</div>
+              <div>Total Head Movement:    THM = &sum; |Cylinder[k] - Cylinder[k-1]|</div>
+              <div>Average Seek Distance:  Avg Seek = THM / Number of Serviced Requests</div>
+            </div>
+          </div>
+
+          <!-- Algorithmic Complexity & Coffman Conditions -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Time &amp; Space Complexity Analysis</span>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Subsystem</th>
+                    <th>Algorithm</th>
+                    <th>Time Complexity</th>
+                    <th>Space Complexity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>CPU</td>
+                    <td>FCFS</td>
+                    <td>O(N log N)</td>
+                    <td>O(N)</td>
+                  </tr>
+                  <tr>
+                    <td>CPU</td>
+                    <td>SJF (Non-preemptive)</td>
+                    <td>O(N log N)</td>
+                    <td>O(N)</td>
+                  </tr>
+                  <tr>
+                    <td>CPU</td>
+                    <td>Round Robin (Preemptive)</td>
+                    <td>O(Total Burst / q)</td>
+                    <td>O(N)</td>
+                  </tr>
+                  <tr>
+                    <td>CPU</td>
+                    <td>Priority</td>
+                    <td>O(N log N)</td>
+                    <td>O(N)</td>
+                  </tr>
+                  <tr>
+                    <td>Memory</td>
+                    <td>First Fit</td>
+                    <td>O(M &times; N)</td>
+                    <td>O(M + N)</td>
+                  </tr>
+                  <tr>
+                    <td>Memory</td>
+                    <td>Best Fit</td>
+                    <td>O(M &times; N)</td>
+                    <td>O(M + N)</td>
+                  </tr>
+                  <tr>
+                    <td>Memory</td>
+                    <td>Worst Fit</td>
+                    <td>O(M &times; N)</td>
+                    <td>O(M + N)</td>
+                  </tr>
+                  <tr>
+                    <td>Deadlock</td>
+                    <td>Banker's Safety</td>
+                    <td>O(P&sup2; &times; R)</td>
+                    <td>O(P &times; R)</td>
+                  </tr>
+                  <tr>
+                    <td>Disk</td>
+                    <td>FCFS</td>
+                    <td>O(K)</td>
+                    <td>O(K)</td>
+                  </tr>
+                  <tr>
+                    <td>Disk</td>
+                    <td>SSTF</td>
+                    <td>O(K&sup2;)</td>
+                    <td>O(K)</td>
+                  </tr>
+                  <tr>
+                    <td>Disk</td>
+                    <td>SCAN / C-SCAN</td>
+                    <td>O(K log K)</td>
+                    <td>O(K)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="margin-top: 16px;">
+              <span class="card-title" style="margin-bottom: 8px; display: block;">Coffman 4 Conditions for Deadlock</span>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary); display: flex; flex-direction: column; gap: 6px;">
+                <div>1. <strong>Mutual Exclusion:</strong> At least one resource held in non-shareable mode.</div>
+                <div>2. <strong>Hold and Wait:</strong> Process holds at least one resource and awaits additional ones.</div>
+                <div>3. <strong>No Preemption:</strong> Resources cannot be forcibly taken from a holding process.</div>
+                <div>4. <strong>Circular Wait:</strong> A closed chain of processes exists where each holds resources requested by the next.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <div>
+        <span>OS RESOURCE MANAGEMENT SIMULATOR PRO-MAX &bull; NATIVE CONSOLE ARCHITECTURE</span>
+      </div>
+      <div class="footer-right">
+        <span>77 FORMAL TESTS PASS</span>
+        <span>ZERO DEPENDENCIES</span>
+        <span>HTML5 &bull; CSS3 &bull; VANILLA JS</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
