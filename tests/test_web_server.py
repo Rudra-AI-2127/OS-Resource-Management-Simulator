@@ -178,6 +178,19 @@ class TestNativeWebServer(unittest.TestCase):
         self.assertEqual(data["failed_allocations"], 0)
         self.assertEqual(data["internal_fragmentation_kb"], 0)
 
+    def test_memory_run_all(self):
+        payload = {
+            "algorithm": "all",
+            "blocks": [100, 500, 200, 300, 600],
+            "requests": [["P1", 212], ["P2", 417], ["P3", 112], ["P4", 426]],
+        }
+        status, body, _ = MockClient.request("POST", "/api/memory/run", payload)
+        self.assertEqual(status, 200)
+        data = json.loads(body)
+        self.assertEqual(data["mode"], "all")
+        self.assertEqual(len(data["results"]), 3)
+        self.assertIn("best_algorithm", data)
+
     def test_deadlock_run_bankers_and_request(self):
         payload = {
             "process_ids": ["P0", "P1", "P2", "P3", "P4"],
@@ -222,6 +235,21 @@ class TestNativeWebServer(unittest.TestCase):
         data = json.loads(body)
         self.assertEqual(data["total_head_movement"], 236)
         self.assertEqual(data["requests_serviced"], 8)
+
+    def test_disk_run_all(self):
+        payload = {
+            "algorithm": "all",
+            "initial_head": 53,
+            "requests": [98, 183, 37, 122, 14, 124, 65, 67],
+            "total_cylinders": 200,
+            "direction": "up",
+        }
+        status, body, _ = MockClient.request("POST", "/api/disk/run", payload)
+        self.assertEqual(status, 200)
+        data = json.loads(body)
+        self.assertEqual(data["mode"], "all")
+        self.assertEqual(len(data["results"]), 4)
+        self.assertIn("best_algorithm", data)
 
     def test_invalid_path_404(self):
         status, body, _ = MockClient.request("GET", "/invalid_endpoint")

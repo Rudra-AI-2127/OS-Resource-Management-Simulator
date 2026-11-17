@@ -415,10 +415,13 @@ class OSSimulatorHTTPHandler(BaseHTTPRequestHandler):
         algo = str(data.get("algorithm", "all")).lower().strip()
 
         if algo == "all":
-            results = compare_memory_algorithms(blocks, requests)
+            cmp_res = compare_memory_algorithms(blocks, requests)
+            results_list = [_serialize_memory_result(r) for r in cmp_res["results"].values()]
             self._send_json({
                 "mode": "all",
-                "results": [_serialize_memory_result(r) for r in results],
+                "results": results_list,
+                "comparison_table": cmp_res.get("comparison_table", []),
+                "best_algorithm": cmp_res.get("best_algorithm", ""),
             })
         else:
             if algo in ("first_fit", "firstfit"):
@@ -498,10 +501,12 @@ class OSSimulatorHTTPHandler(BaseHTTPRequestHandler):
         algo = str(data.get("algorithm", "all")).lower().strip()
 
         if algo == "all":
-            results = compare_disk_algorithms(requests, initial_head, direction, total_cylinders)
+            cmp_res = compare_disk_algorithms(requests, initial_head, total_cylinders=total_cylinders, direction=direction)
             self._send_json({
                 "mode": "all",
-                "results": [_serialize_disk_result(r) for r in results],
+                "results": [_serialize_disk_result(r) for r in cmp_res["results"].values()],
+                "comparison_table": cmp_res.get("comparison_table", []),
+                "best_algorithm": cmp_res.get("best_algorithm", ""),
             })
         else:
             if algo == "fcfs":
